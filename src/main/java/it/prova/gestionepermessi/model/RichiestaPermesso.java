@@ -33,7 +33,7 @@ public class RichiestaPermesso {
 	private Date dataFine;
 
 	@Column(name = "approvato")
-	private boolean approvato = false;
+	private Boolean approvato = false;
 
 	@Column(name = "codicecertificato")
 	private String codiceCertificato;
@@ -109,11 +109,11 @@ public class RichiestaPermesso {
 		this.dataFine = dataFine;
 	}
 
-	public boolean isApprovato() {
+	public Boolean isApprovato() {
 		return approvato;
 	}
 
-	public void setApprovato(boolean approvato) {
+	public void setApprovato(Boolean approvato) {
 		this.approvato = approvato;
 	}
 

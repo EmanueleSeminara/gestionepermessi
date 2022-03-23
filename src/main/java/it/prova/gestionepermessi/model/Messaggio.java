@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -28,20 +28,20 @@ public class Messaggio {
 	@Column(name = "letto")
 	private boolean letto = false;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "utente_id", nullable = false)
-	private Utente utenteInserimento;
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "richiestapermesso_id", referencedColumnName = "id", nullable = true)
+	RichiestaPermesso richiestaPermesso;
 
 	public Messaggio() {
 		super();
 	}
 
-	public Messaggio(String testo, String oggetto, boolean letto, Utente utenteInserimento) {
+	public Messaggio(String testo, String oggetto, boolean letto, RichiestaPermesso richiestaPermesso) {
 		super();
 		this.testo = testo;
 		this.oggetto = oggetto;
 		this.letto = letto;
-		this.utenteInserimento = utenteInserimento;
+		this.richiestaPermesso = richiestaPermesso;
 	}
 
 	public String getTesto() {
@@ -68,12 +68,20 @@ public class Messaggio {
 		this.letto = letto;
 	}
 
-	public Utente getUtenteInserimento() {
-		return utenteInserimento;
+	public Long getId() {
+		return id;
 	}
 
-	public void setUtenteInserimento(Utente utenteInserimento) {
-		this.utenteInserimento = utenteInserimento;
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public RichiestaPermesso getRichiestaPermesso() {
+		return richiestaPermesso;
+	}
+
+	public void setRichiestaPermesso(RichiestaPermesso richiestaPermesso) {
+		this.richiestaPermesso = richiestaPermesso;
 	}
 
 }
