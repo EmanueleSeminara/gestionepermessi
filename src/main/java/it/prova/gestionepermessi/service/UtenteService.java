@@ -17,7 +17,17 @@ public interface UtenteService {
 
 	public void inserisciNuovo(Utente utenteInstance);
 
+	public void inserisciUtenteECensisciDipendente(Utente utenteInstance);
+
 	public void rimuovi(Utente utenteInstance);
 
 	public Page<Utente> findByExample(Utente example, Integer pageNo, Integer pageSize, String sortBy);
+
+	public Utente findByUsername(String username);
+
+	public void changeUserAbilitation(Long utenteInstanceId);
+
+	public Utente findByUsernameAndPassword(String username, String password);
+
+	public Utente eseguiAccesso(String username, String password);
 }

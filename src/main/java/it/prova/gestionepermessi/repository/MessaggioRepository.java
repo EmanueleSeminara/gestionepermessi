@@ -10,6 +10,6 @@ import it.prova.gestionepermessi.model.Messaggio;
 
 public interface MessaggioRepository
 		extends PagingAndSortingRepository<Messaggio, Long>, JpaSpecificationExecutor<Messaggio> {
-	@Query("from Messaggio m left join fetch m.richiestaPermesso r left join fetch r.dipendente where d.id = ?1")
+	@Query("from Messaggio m left join fetch m.richiestaPermesso r left join fetch r.dipendente where m.id = ?1")
 	public Optional<Messaggio> findByIdEager(Long idMessaggio);
 }

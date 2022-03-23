@@ -15,4 +15,6 @@ public interface RuoloService {
 
 	public void rimuovi(Ruolo ruoloInstance);
 
+	public Ruolo cercaPerDescrizioneECodice(String descrizione, String codice);
+
 }

@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -38,6 +39,9 @@ public class Utente {
 	// se non uso questa annotation viene gestito come un intero
 	@Enumerated(EnumType.STRING)
 	private StatoUtente stato;
+
+	@OneToOne(mappedBy = "utente")
+	private Dipendente dipendente;
 
 	@ManyToMany
 	@JoinTable(name = "utente_ruolo", joinColumns = @JoinColumn(name = "utente_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ruolo_id", referencedColumnName = "ID"))
@@ -135,6 +139,14 @@ public class Utente {
 		this.stato = stato;
 	}
 
+	public Dipendente getDipendente() {
+		return dipendente;
+	}
+
+	public void setDipendente(Dipendente dipendente) {
+		this.dipendente = dipendente;
+	}
+
 	public boolean isAdmin() {
 		for (Ruolo ruoloItem : ruoli) {
 			if (ruoloItem.getCodice().equals(Ruolo.ROLE_ADMIN))
@@ -149,6 +161,18 @@ public class Utente {
 
 	public boolean isDisabilitato() {
 		return this.stato != null && this.stato.equals(StatoUtente.DISABILITATO);
+	}
+
+	public static void populateUtenteWithDipendente(Utente utenteInput) {
+
+		utenteInput.setDipendente(new Dipendente(utenteInput.getNome(), utenteInput.getCognome()));
+		utenteInput.getDipendente().setUtente(utenteInput);
+	}
+
+	public static void populateUtenteWithUsername(Utente utenteInput) {
+		utenteInput.setUsername(
+				Character.toLowerCase(utenteInput.getNome().charAt(0)) + "." + utenteInput.getCognome().toLowerCase());
+
 	}
 
 	@Override

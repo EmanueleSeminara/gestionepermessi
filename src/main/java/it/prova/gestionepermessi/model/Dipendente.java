@@ -12,7 +12,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -50,8 +49,7 @@ public class Dipendente {
 	@Enumerated(EnumType.STRING)
 	private Sesso sesso;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "utente_id", referencedColumnName = "id", nullable = false, unique = true)
+	@OneToOne
 	private Utente utente;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "dipendente")
@@ -180,6 +178,13 @@ public class Dipendente {
 
 	public void setRichiestePermesso(Set<RichiestaPermesso> richiestePermesso) {
 		this.richiestePermesso = richiestePermesso;
+	}
+
+	@Override
+	public String toString() {
+		return "Dipendente [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", codFis=" + codFis + ", email="
+				+ email + ", dataNascita=" + dataNascita + ", dataAssunzione=" + dataAssunzione + ", dataDimissioni="
+				+ dataDimissioni + ", sesso=" + sesso + "]";
 	}
 
 }
