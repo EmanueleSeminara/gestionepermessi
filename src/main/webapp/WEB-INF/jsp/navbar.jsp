@@ -1,17 +1,17 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <style>
-.btn-primary:hover{
+.btn-custom:hover{
 	outline: none;
 	background: none;
 	color: #c6dbff;
 }
 
-.btn-primary:focus{
+.btn-custom:focus{
 	outline: none;
 	background: none;
 	box-shadow: none;
 }
-.btn{
+.btn-custom{
 	border: none;
 }
 
@@ -59,7 +59,7 @@
       <sec:authorize access="isAuthenticated()">
       <sec:authentication var="principal" property="principal" />
         <div class="dropdown">
-        <button class="btn dropdown-toggle btn-primary" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn dropdown-toggle btn-primary btn-custom" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
           Utente: <sec:authentication property="name"/> (${userInfo.nome } ${userInfo.cognome })
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">

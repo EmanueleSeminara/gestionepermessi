@@ -1,3 +1,4 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!doctype html>
 <html lang="it" class="h-100" >
 	 <head>
@@ -54,13 +55,13 @@
 				  ${errorMessage}
 				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>
 				</div>
-			    
+			    <sec:authorize access="!hasRole('ADMIN')">
 			     <div class="p-5 mb-4 bg-light rounded-3">
 				      <div class="container-fluid py-5">
 				        <h1 class="display-5 fw-bold text-center">Benvenuto ${userInfo.nome}</h1>
 				      </div>
 			    </div>
-			    
+			    </sec:authorize>
 			  </div>
 			  
 			  <!--  features di bootstrap 'Columns with icons'  -->
