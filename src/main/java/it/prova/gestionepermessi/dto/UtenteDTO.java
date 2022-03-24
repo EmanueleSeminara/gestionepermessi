@@ -11,6 +11,7 @@ import it.prova.gestionepermessi.model.Ruolo;
 import it.prova.gestionepermessi.model.StatoUtente;
 import it.prova.gestionepermessi.model.Utente;
 import it.prova.gestionepermessi.validation.ValidationNoPassword;
+import it.prova.gestionepermessi.validation.ValidationNoUsername;
 import it.prova.gestionepermessi.validation.ValidationWithPassword;
 
 public class UtenteDTO {
@@ -27,10 +28,10 @@ public class UtenteDTO {
 
 	private String confermaPassword;
 
-	@NotBlank(message = "{nome.notblank}", groups = { ValidationWithPassword.class, ValidationNoPassword.class })
+	@NotBlank(message = "{nome.notblank}", groups = { ValidationWithPassword.class, ValidationNoPassword.class, ValidationNoUsername.class })
 	private String nome;
 
-	@NotBlank(message = "{cognome.notblank}", groups = { ValidationWithPassword.class, ValidationNoPassword.class })
+	@NotBlank(message = "{cognome.notblank}", groups = { ValidationWithPassword.class, ValidationNoPassword.class, ValidationNoUsername.class })
 	private String cognome;
 
 	private Date dateCreated;

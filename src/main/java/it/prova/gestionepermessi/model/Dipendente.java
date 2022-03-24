@@ -180,6 +180,12 @@ public class Dipendente {
 		this.richiestePermesso = richiestePermesso;
 	}
 
+	public static void populateUtenteWithUsername(Utente utenteInput) {
+		utenteInput.setUsername(
+				Character.toLowerCase(utenteInput.getNome().charAt(0)) + "." + utenteInput.getCognome().toLowerCase());
+
+	}
+
 	@Override
 	public String toString() {
 		return "Dipendente [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", codFis=" + codFis + ", email="

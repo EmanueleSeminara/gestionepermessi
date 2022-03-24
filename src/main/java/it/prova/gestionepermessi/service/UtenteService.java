@@ -15,6 +15,8 @@ public interface UtenteService {
 
 	public void aggiorna(Utente utenteInstance);
 
+	public void aggiornaUtenteEDipendente(Utente utenteInstance);
+
 	public void inserisciNuovo(Utente utenteInstance);
 
 	public void inserisciUtenteECensisciDipendente(Utente utenteInstance);

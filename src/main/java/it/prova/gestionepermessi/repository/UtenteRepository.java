@@ -14,7 +14,7 @@ public interface UtenteRepository extends PagingAndSortingRepository<Utente, Lon
 	@EntityGraph(attributePaths = { "ruoli" })
 	Optional<Utente> findByUsername(String username);
 
-	@Query("from Utente u left join fetch u.ruoli where u.id = ?1")
+	@Query("from Utente u left join fetch u.ruoli left join fetch u.dipendente where u.id = ?1")
 	Optional<Utente> findByIdEager(Long id);
 
 	Utente findByUsernameAndPassword(String username, String password);
