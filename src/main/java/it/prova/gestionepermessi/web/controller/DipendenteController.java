@@ -7,12 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import it.prova.gestionepermessi.dto.DipendenteDTO;
+import it.prova.gestionepermessi.dto.UtenteToShowDTO;
 import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.service.DipendenteService;
 
@@ -47,5 +49,14 @@ public class DipendenteController {
 		model.addAttribute("dipendente_list_attribute", DipendenteDTO.createDipendenteDTOListFromModelList(dipendenti));
 		model.addAttribute("path", "ricercadipendenti");
 		return "dipendente/list";
+	}
+	
+	@GetMapping("/show/{idDipendente}")
+	public String showDipendente(@PathVariable(required = true) Long idDipendente, Model model) {
+		model.addAttribute("show_dipendente_attr",
+				DipendenteDTO.buildDipendenteDTOFromModel(dipendenteService.caricaSingoloElementoEager(idDipendente)));
+		model.addAttribute("path", "gestioneutenze");
+
+		return "dipendente/show";
 	}
 }

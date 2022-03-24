@@ -1,5 +1,8 @@
 package it.prova.gestionepermessi;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -7,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.model.Ruolo;
+import it.prova.gestionepermessi.model.Sesso;
 import it.prova.gestionepermessi.service.DipendenteService;
 import it.prova.gestionepermessi.service.RuoloService;
 import it.prova.gestionepermessi.service.UtenteService;
@@ -45,6 +49,19 @@ public class GestionepermessiApplication implements CommandLineRunner {
 		// faccio qui perche gia lo fa il service di utente, durante inserisciNuovo
 		if (utenteServiceInstance.findByUsername("m.rossi") == null) {
 			Dipendente admin = new Dipendente("Mario", "Rossi");
+//			
+			dipendenteServiceInstance.inserisciDipendenteEUtenteConRuoli(admin,
+					ruoloServiceInstance.cercaPerDescrizioneECodice("Administrator", "ROLE_ADMIN"));
+			// l'inserimento avviene come created ma io voglio attivarlo
+			utenteServiceInstance.changeUserAbilitation(admin.getUtente().getId());
+		}
+
+		if (utenteServiceInstance.findByUsername("c.corsello") == null) {
+			Date dataNascita1 = new SimpleDateFormat("dd/MM/yyyy").parse("20/06/1999");
+			Date dataAssunzione1 = new SimpleDateFormat("dd/MM/yyyy").parse("10/02/2022");
+			Dipendente admin = new Dipendente("Calogero", "Corsello", "CRSCGR99H20B602J", dataNascita1, dataAssunzione1,
+					new Date(), Sesso.MASCHIO);
+
 //			
 			dipendenteServiceInstance.inserisciDipendenteEUtenteConRuoli(admin,
 					ruoloServiceInstance.cercaPerDescrizioneECodice("Administrator", "ROLE_ADMIN"));

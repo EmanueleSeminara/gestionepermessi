@@ -90,6 +90,18 @@ public class Dipendente {
 		this.richiestePermesso = richiestePermesso;
 	}
 
+	public Dipendente(String nome, String cognome, String codFis, Date dataNascita, Date dataAssunzione,
+			Date dataDimissioni, Sesso sesso) {
+		super();
+		this.nome = nome;
+		this.cognome = cognome;
+		this.codFis = codFis;
+		this.dataNascita = dataNascita;
+		this.dataAssunzione = dataAssunzione;
+		this.dataDimissioni = dataDimissioni;
+		this.sesso = sesso;
+	}
+
 	public Dipendente(String nome, String cognome, String codFis, String email, Date dataNascita, Sesso sesso) {
 		super();
 		this.nome = nome;

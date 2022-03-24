@@ -4,7 +4,7 @@
 <html lang="it" class="h-100">
 <head>
 	<jsp:include page="../header.jsp" />
-	<title>Risultati ricerca utenti</title>
+	<title>Risultati Ricerca Dipendenti</title>
 	
 </head>
 <body class="d-flex flex-column h-100">
@@ -25,7 +25,7 @@
 			
 			<div class='card'>
 			    <div class='card-header'>
-			        <h5>Lista degli utenti</h5> 
+			        <h5>Lista dei Dipendenti</h5> 
 			    </div>
 			    <div class='card-body'>
 			    	<a href="${pageContext.request.contextPath}/dipendente/search" class='btn btn-outline-secondary' >
