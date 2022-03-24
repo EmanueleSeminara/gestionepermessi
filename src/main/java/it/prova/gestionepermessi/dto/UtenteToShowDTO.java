@@ -28,12 +28,6 @@ public class UtenteToShowDTO {
 
 	private String confermaPassword;
 
-	@NotBlank(message = "{nome.notblank}", groups = { ValidationWithPassword.class, ValidationNoPassword.class })
-	private String nome;
-
-	@NotBlank(message = "{cognome.notblank}", groups = { ValidationWithPassword.class, ValidationNoPassword.class })
-	private String cognome;
-
 	private Date dateCreated;
 
 	private StatoUtente stato;
@@ -43,22 +37,18 @@ public class UtenteToShowDTO {
 	public UtenteToShowDTO() {
 	}
 
-	public UtenteToShowDTO(Long id, String username, String nome, String cognome, Date dateCreated, StatoUtente stato) {
+	public UtenteToShowDTO(Long id, String username, Date dateCreated, StatoUtente stato) {
 		super();
 		this.id = id;
 		this.username = username;
-		this.nome = nome;
-		this.cognome = cognome;
 		this.dateCreated = dateCreated;
 		this.stato = stato;
 	}
 
-	public UtenteToShowDTO(Long id, String username, String nome, String cognome, StatoUtente stato) {
+	public UtenteToShowDTO(Long id, String username, StatoUtente stato) {
 		super();
 		this.id = id;
 		this.username = username;
-		this.nome = nome;
-		this.cognome = cognome;
 		this.stato = stato;
 	}
 
@@ -84,22 +74,6 @@ public class UtenteToShowDTO {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getCognome() {
-		return cognome;
-	}
-
-	public void setCognome(String cognome) {
-		this.cognome = cognome;
 	}
 
 	public Date getDateCreated() {
@@ -135,8 +109,7 @@ public class UtenteToShowDTO {
 	}
 
 	public Utente buildUtenteModel(boolean includeIdRoles) {
-		Utente result = new Utente(this.id, this.username, this.password, this.nome, this.cognome, this.dateCreated,
-				this.stato);
+		Utente result = new Utente(this.id, this.username, this.dateCreated, this.stato);
 		if (includeIdRoles && ruoli != null)
 			result.setRuoli(ruoli.stream().map(ruoloEntity -> {
 				return new Ruolo(ruoloEntity.getId(), ruoloEntity.getDescrizione(), ruoloEntity.getCodice());
@@ -148,7 +121,7 @@ public class UtenteToShowDTO {
 	// niente password...
 	public static UtenteToShowDTO buildUtenteToShowDTOFromModel(Utente utenteModel) {
 		UtenteToShowDTO result = new UtenteToShowDTO(utenteModel.getId(), utenteModel.getUsername(),
-				utenteModel.getNome(), utenteModel.getCognome(), utenteModel.getDateCreated(), utenteModel.getStato());
+				utenteModel.getDateCreated(), utenteModel.getStato());
 
 		if (!utenteModel.getRuoli().isEmpty())
 			result.ruoli = RuoloDTO.createRuoloDTOListFromModelSet(utenteModel.getRuoli()).stream()

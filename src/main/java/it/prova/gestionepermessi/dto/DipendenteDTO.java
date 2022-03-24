@@ -1,67 +1,52 @@
-package it.prova.gestionepermessi.model;
+package it.prova.gestionepermessi.dto;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-@Entity
-@Table(name = "dipendente")
-public class Dipendente {
+import it.prova.gestionepermessi.model.RichiestaPermesso;
+import it.prova.gestionepermessi.model.Sesso;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+public class DipendenteDTO {
+
 	private Long id;
 
-	@Column(name = "nome")
+	@NotBlank(message = "{nome.notblank}")
 	private String nome;
 
-	@Column(name = "cognome")
+	@NotBlank(message = "{cognome.notblank}")
 	private String cognome;
 
-	@Column(name = "codfis")
+	@NotBlank(message = "{codFis.notblank}")
+	@Size(min = 16, max = 16, message = "Il valore inserito deve essere lungo tra {min} e {max} caratteri")
 	private String codFis;
 
-	@Column(name = "email")
+	@NotBlank(message = "{email.notblank}")
 	private String email;
 
-	@Column(name = "datanascita")
+	@NotNull(message = "{dataNascita.notnull}")
 	private Date dataNascita;
 
-	@Column(name = "dataassunzione")
+	@NotNull(message = "{dataAssunzione.notnull}")
 	private Date dataAssunzione;
 
-	@Column(name = "datadimissioni")
 	private Date dataDimissioni;
 
-	@Enumerated(EnumType.STRING)
+	@NotBlank(message = "{sesso.notblank}")
 	private Sesso sesso;
 
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
-	private Utente utente;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "dipendente")
 	private Set<RichiestaPermesso> richiestePermesso = new HashSet<>();
 
-	public Dipendente() {
+	public DipendenteDTO() {
 		super();
 	}
 
-	public Dipendente(Long id, String nome, String cognome, String codFis, String email, Date dataNascita,
-			Date dataAssunzione, Date dataDimissioni, Sesso sesso, Utente utente,
-			Set<RichiestaPermesso> richiestePermesso) {
+	public DipendenteDTO(Long id, String nome, String cognome, String codFis, String email, Date dataNascita,
+			Date dataAssunzione, Date dataDimissioni, Sesso sesso, Set<RichiestaPermesso> richiestePermesso) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -72,11 +57,10 @@ public class Dipendente {
 		this.dataAssunzione = dataAssunzione;
 		this.dataDimissioni = dataDimissioni;
 		this.sesso = sesso;
-		this.utente = utente;
 		this.richiestePermesso = richiestePermesso;
 	}
 
-	public Dipendente(String nome, String cognome, String codFis, String email, Date dataNascita, Sesso sesso) {
+	public DipendenteDTO(String nome, String cognome, String codFis, String email, Date dataNascita, Sesso sesso) {
 		super();
 		this.nome = nome;
 		this.cognome = cognome;
@@ -86,7 +70,7 @@ public class Dipendente {
 		this.sesso = sesso;
 	}
 
-	public Dipendente(String nome, String cognome) {
+	public DipendenteDTO(String nome, String cognome) {
 		super();
 		this.nome = nome;
 		this.cognome = cognome;
@@ -164,14 +148,6 @@ public class Dipendente {
 		this.sesso = sesso;
 	}
 
-	public Utente getUtente() {
-		return utente;
-	}
-
-	public void setUtente(Utente utente) {
-		this.utente = utente;
-	}
-
 	public Set<RichiestaPermesso> getRichiestePermesso() {
 		return richiestePermesso;
 	}
@@ -180,17 +156,10 @@ public class Dipendente {
 		this.richiestePermesso = richiestePermesso;
 	}
 
-//	public static void populateUtenteWithUsername(Utente utenteInput) {
-//		utenteInput.setUsername(
-//				Character.toLowerCase(utenteInput.getNome().charAt(0)) + "." + utenteInput.getCognome().toLowerCase());
-//
-//	}
-
 	@Override
 	public String toString() {
-		return "Dipendente [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", codFis=" + codFis + ", email="
+		return "DipendenteDTO [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", codFis=" + codFis + ", email="
 				+ email + ", dataNascita=" + dataNascita + ", dataAssunzione=" + dataAssunzione + ", dataDimissioni="
 				+ dataDimissioni + ", sesso=" + sesso + "]";
 	}
-
 }

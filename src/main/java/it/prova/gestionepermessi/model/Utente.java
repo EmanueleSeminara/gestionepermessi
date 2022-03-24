@@ -16,6 +16,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "utente")
@@ -29,10 +30,7 @@ public class Utente {
 	private String username;
 	@Column(name = "password")
 	private String password;
-	@Column(name = "nome")
-	private String nome;
-	@Column(name = "cognome")
-	private String cognome;
+
 	@Column(name = "dateCreated")
 	private Date dateCreated;
 
@@ -41,6 +39,7 @@ public class Utente {
 	private StatoUtente stato;
 
 	@OneToOne(mappedBy = "utente")
+	@NotNull
 	private Dipendente dipendente;
 
 	@ManyToMany
@@ -56,21 +55,25 @@ public class Utente {
 		this.password = password;
 	}
 
-	public Utente(String username, String password, String nome, String cognome, Date dateCreated) {
+	public Utente(String username, String password, Date dateCreated) {
 		this.username = username;
 		this.password = password;
-		this.nome = nome;
-		this.cognome = cognome;
 		this.dateCreated = dateCreated;
 	}
 
-	public Utente(Long id, String username, String password, String nome, String cognome, Date dateCreated,
-			StatoUtente stato) {
+	public Utente(Long id, String username, String password, Date dateCreated, StatoUtente stato) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
-		this.nome = nome;
-		this.cognome = cognome;
+
+		this.dateCreated = dateCreated;
+		this.stato = stato;
+	}
+
+	public Utente(Long id, String username, Date dateCreated, StatoUtente stato) {
+		super();
+		this.id = id;
+		this.username = username;
 		this.dateCreated = dateCreated;
 		this.stato = stato;
 	}
@@ -105,22 +108,6 @@ public class Utente {
 
 	public void setRuoli(Set<Ruolo> ruoli) {
 		this.ruoli = ruoli;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getCognome() {
-		return cognome;
-	}
-
-	public void setCognome(String cognome) {
-		this.cognome = cognome;
 	}
 
 	public Date getDateCreated() {
@@ -163,22 +150,22 @@ public class Utente {
 		return this.stato != null && this.stato.equals(StatoUtente.DISABILITATO);
 	}
 
-	public static void populateUtenteWithDipendente(Utente utenteInput) {
-
-		utenteInput.setDipendente(new Dipendente(utenteInput.getNome(), utenteInput.getCognome()));
-		utenteInput.getDipendente().setUtente(utenteInput);
-	}
-
-	public static void populateUtenteWithUsername(Utente utenteInput) {
-		utenteInput.setUsername(
-				Character.toLowerCase(utenteInput.getNome().charAt(0)) + "." + utenteInput.getCognome().toLowerCase());
-
-	}
+//	public static void populateUtenteWithDipendente(Utente utenteInput) {
+//
+//		utenteInput.setDipendente(new Dipendente(utenteInput.getNome(), utenteInput.getCognome()));
+//		utenteInput.getDipendente().setUtente(utenteInput);
+//	}
+//
+//	public static void populateUtenteWithUsername(Utente utenteInput) {
+//		utenteInput.setUsername(
+//				Character.toLowerCase(utenteInput.getNome().charAt(0)) + "." + utenteInput.getCognome().toLowerCase());
+//
+//	}
 
 	@Override
 	public String toString() {
-		return "Utente [id=" + id + ", username=" + username + ", password=" + password + ", nome=" + nome
-				+ ", cognome=" + cognome + ", dateCreated=" + dateCreated + ", stato=" + stato + "]";
+		return "Utente [id=" + id + ", username=" + username + ", password=" + password + ", dateCreated=" + dateCreated
+				+ ", stato=" + stato + "]";
 	}
 
 }

@@ -12,7 +12,7 @@
 		    }
 		</style>
 	   
-	   <title>Modifica Elemento</title>
+	   <title>Modifica Ruoli Utente</title>
 	 </head>
 	   <body class="d-flex flex-column h-100">
 	   
@@ -39,37 +39,19 @@
 			  
 			  <div class='card'>
 				    <div class='card-header'>
-				        <h5>Inserisci nuovo elemento</h5> 
+				        <h5>Modifica ruoli utente</h5> 
 				    </div>
 				    <div class='card-body'>
-		
-							<h6 class="card-title">I campi con <span class="text-danger">*</span> sono obbligatori</h6>
-		
 		
 							<form:form modelAttribute="edit_utente_attr" method="post" action="${pageContext.request.contextPath}/utente/update" novalidate="novalidate" class="row g-3">
 								<input type="hidden" name="id" value="${edit_utente_attr.id }">
 							
-								<div class="col-md-6">
-									<label for="nome" class="form-label">Nome <span class="text-danger">*</span></label>
-									<spring:bind path="nome">
-										<input type="text" name="nome" id="nome" class="form-control ${status.error ? 'is-invalid' : ''}" placeholder="Inserire il nome" value="${edit_utente_attr.nome }" required>
-									</spring:bind>
-									<form:errors  path="nome" cssClass="error_field" />
-								</div>
-								
-								<div class="col-md-6">
-									<label for="cognome" class="form-label">Cognome <span class="text-danger">*</span></label>
-									<spring:bind path="cognome">
-										<input type="text" name="cognome" id="cognome" class="form-control ${status.error ? 'is-invalid' : ''}" placeholder="Inserire il cognome" value="${edit_utente_attr.cognome }" required>
-									</spring:bind>
-									<form:errors  path="cognome" cssClass="error_field" />
-								</div>
 								 
 								
 								<%--  checkbox ruoli 	--%>
 								<%-- facendolo con i tag di spring purtroppo viene un po' spaginato quindi aggiungo class 'a mano'	--%>
 								<div class="col-md-6 form-check" id="ruoliDivId">
-									<p>Ruoli:</p>
+									<h6 class="card-title">Ruoli</h6>
 									<form:checkboxes itemValue="id" itemLabel="codice"  element="div class='form-check'" items="${ruoli_totali_attr}" path="ruoliIds" />
 								</div>
 								<script>

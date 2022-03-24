@@ -13,13 +13,7 @@ public interface UtenteService {
 
 	public Utente caricaSingoloElementoEager(Long id);
 
-	public void aggiorna(Utente utenteInstance);
-
-	public void aggiornaUtenteEDipendente(Utente utenteInstance);
-
-	public void inserisciNuovo(Utente utenteInstance);
-
-	public void inserisciUtenteECensisciDipendente(Utente utenteInstance);
+	public void aggiornaRuoliUtente(Utente utenteInstance);
 
 	public void rimuovi(Utente utenteInstance);
 

@@ -1,7 +1,6 @@
 package it.prova.gestionepermessi.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.criteria.JoinType;
@@ -19,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.model.StatoUtente;
 import it.prova.gestionepermessi.model.Utente;
 import it.prova.gestionepermessi.repository.DipendenteRepository;
@@ -54,29 +52,6 @@ public class UtenteServiceImpl implements UtenteService {
 
 	@Override
 	@Transactional
-	public void aggiorna(Utente utenteInstance) {
-		// deve aggiornare solo nome, cognome, username, ruoli
-		Utente utenteReloaded = utenteRepository.findById(utenteInstance.getId()).orElse(null);
-		if (utenteReloaded == null)
-			throw new RuntimeException("Elemento non trovato");
-		utenteReloaded.setNome(utenteInstance.getNome());
-		utenteReloaded.setCognome(utenteInstance.getCognome());
-		utenteReloaded.setUsername(utenteInstance.getUsername());
-		utenteReloaded.setRuoli(utenteInstance.getRuoli());
-		utenteRepository.save(utenteReloaded);
-	}
-
-	@Override
-	@Transactional
-	public void inserisciNuovo(Utente utenteInstance) {
-		utenteInstance.setStato(StatoUtente.CREATO);
-		utenteInstance.setPassword(passwordEncoder.encode(utenteInstance.getPassword()));
-		utenteInstance.setDateCreated(new Date());
-		utenteRepository.save(utenteInstance);
-	}
-
-	@Override
-	@Transactional
 	public void rimuovi(Utente utenteInstance) {
 		utenteRepository.delete(utenteInstance);
 	}
@@ -88,11 +63,13 @@ public class UtenteServiceImpl implements UtenteService {
 
 			List<Predicate> predicates = new ArrayList<Predicate>();
 
-			if (StringUtils.isNotEmpty(example.getNome()))
-				predicates.add(cb.like(cb.upper(root.get("nome")), "%" + example.getNome().toUpperCase() + "%"));
+			if (StringUtils.isNotEmpty(example.getDipendente().getNome()))
+				predicates.add(cb.like(cb.upper(root.join("dipendente").get("nome")),
+						"%" + example.getDipendente().getNome().toUpperCase() + "%"));
 
-			if (StringUtils.isNotEmpty(example.getCognome()))
-				predicates.add(cb.like(cb.upper(root.get("cognome")), "%" + example.getCognome().toUpperCase() + "%"));
+			if (StringUtils.isNotEmpty(example.getDipendente().getCognome()))
+				predicates.add(cb.like(cb.upper(root.join("dipendente").get("cognome")),
+						"%" + example.getDipendente().getCognome().toUpperCase() + "%"));
 
 			if (StringUtils.isNotEmpty(example.getUsername()))
 				predicates
@@ -161,38 +138,13 @@ public class UtenteServiceImpl implements UtenteService {
 	}
 
 	@Override
-	public void inserisciUtenteECensisciDipendente(Utente utenteInstance) {
-
-		utenteInstance.setStato(StatoUtente.CREATO);
-		utenteInstance.setPassword(passwordEncoder.encode(this.defaultPassword));
-		utenteInstance.setDateCreated(new Date());
-		Utente.populateUtenteWithUsername(utenteInstance);
-		utenteRepository.save(utenteInstance);
-
-		Utente.populateUtenteWithDipendente(utenteInstance);
-
-		dipendenteRepository.save(utenteInstance.getDipendente());
-
-	}
-
-	@Override
 	@Transactional
-	public void aggiornaUtenteEDipendente(Utente utenteInstance) {
-		// deve aggiornare solo nome, cognome, username, ruoli
+	public void aggiornaRuoliUtente(Utente utenteInstance) {
 		Utente utenteReloaded = utenteRepository.findByIdEager(utenteInstance.getId()).orElse(null);
-		Dipendente dipendenteReloaded = dipendenteRepository.findById(utenteReloaded.getDipendente().getId())
-				.orElse(null);
-		if (utenteReloaded == null || dipendenteReloaded == null)
+		if (utenteReloaded == null)
 			throw new RuntimeException("Elemento non trovato");
 
-		utenteReloaded.setNome(utenteInstance.getNome());
-		utenteReloaded.setCognome(utenteInstance.getCognome());
 		utenteReloaded.setRuoli(utenteInstance.getRuoli());
-		Utente.populateUtenteWithUsername(utenteReloaded);
-		dipendenteReloaded.setEmail(Character.toLowerCase(utenteReloaded.getNome().charAt(0)) + "."
-				+ utenteReloaded.getCognome().toLowerCase() + "@prova.it");
-		dipendenteReloaded.setNome(utenteInstance.getNome());
-		dipendenteReloaded.setCognome(utenteInstance.getCognome());
 
 		utenteRepository.save(utenteReloaded);
 	}

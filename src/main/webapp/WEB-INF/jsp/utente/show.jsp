@@ -26,16 +26,7 @@
 					  <dt class="col-sm-3 text-right">Id:</dt>
 					  <dd class="col-sm-9">${show_utente_attr.id}</dd>
 			    	</dl>
-			    	
-			    	<dl class="row">
-					  <dt class="col-sm-3 text-right">Nome:</dt>
-					  <dd class="col-sm-9">${show_utente_attr.nome}</dd>
-			    	</dl>
-			    	
-			    	<dl class="row">
-					  <dt class="col-sm-3 text-right">Cognome:</dt>
-					  <dd class="col-sm-9">${show_utente_attr.cognome}</dd>
-			    	</dl>
+
 			    	
 			    	<dl class="row">
 					  <dt class="col-sm-3 text-right">Data Creazione:</dt>

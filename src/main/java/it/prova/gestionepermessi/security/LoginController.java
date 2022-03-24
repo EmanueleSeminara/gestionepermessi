@@ -42,7 +42,7 @@ public class LoginController {
         }else if(exception instanceof DisabledException) {
             error = "Attenzione! Account non abilitato";
         }else{
-            error = "Invalid username and password!";
+            error = "Invalid username and password!!!";
         }
         
         return error;

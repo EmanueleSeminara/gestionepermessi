@@ -1,14 +1,13 @@
 package it.prova.gestionepermessi;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.model.Ruolo;
-import it.prova.gestionepermessi.model.Utente;
+import it.prova.gestionepermessi.service.DipendenteService;
 import it.prova.gestionepermessi.service.RuoloService;
 import it.prova.gestionepermessi.service.UtenteService;
 
@@ -19,6 +18,8 @@ public class GestionepermessiApplication implements CommandLineRunner {
 	private RuoloService ruoloServiceInstance;
 	@Autowired
 	private UtenteService utenteServiceInstance;
+	@Autowired
+	private DipendenteService dipendenteServiceInstance;
 
 	public static void main(String[] args) {
 		SpringApplication.run(GestionepermessiApplication.class, args);
@@ -43,11 +44,12 @@ public class GestionepermessiApplication implements CommandLineRunner {
 		// password non lo
 		// faccio qui perche gia lo fa il service di utente, durante inserisciNuovo
 		if (utenteServiceInstance.findByUsername("m.rossi") == null) {
-			Utente admin = new Utente("admin", "admin", "Mario", "Rossi", new Date());
-			admin.getRuoli().add(ruoloServiceInstance.cercaPerDescrizioneECodice("Administrator", "ROLE_ADMIN"));
-			utenteServiceInstance.inserisciUtenteECensisciDipendente(admin);
+			Dipendente admin = new Dipendente("Mario", "Rossi");
+//			
+			dipendenteServiceInstance.inserisciDipendenteEUtenteConRuoli(admin,
+					ruoloServiceInstance.cercaPerDescrizioneECodice("Administrator", "ROLE_ADMIN"));
 			// l'inserimento avviene come created ma io voglio attivarlo
-			utenteServiceInstance.changeUserAbilitation(admin.getId());
+			utenteServiceInstance.changeUserAbilitation(admin.getUtente().getId());
 		}
 
 //		if (utenteServiceInstance.findByUsername("user") == null) {

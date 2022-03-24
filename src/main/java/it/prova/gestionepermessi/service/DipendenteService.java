@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 
 import it.prova.gestionepermessi.model.Dipendente;
+import it.prova.gestionepermessi.model.Ruolo;
 
 public interface DipendenteService {
 	public List<Dipendente> listAllElements();
@@ -15,7 +16,7 @@ public interface DipendenteService {
 
 	public void aggiorna(Dipendente dipendenteInstance);
 
-	public void inserisciNuovo(Dipendente dipendenteInstance);
+	public void inserisciDipendenteEUtenteConRuoli(Dipendente dipendenteInstance, Ruolo ruoliInput);
 
 	public void rimuovi(Dipendente dipendenteInstance);
 
