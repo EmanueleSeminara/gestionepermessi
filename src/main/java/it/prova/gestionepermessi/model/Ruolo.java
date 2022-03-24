@@ -67,4 +67,9 @@ public class Ruolo {
 		this.codice = codice;
 	}
 
+	@Override
+	public String toString() {
+		return "Ruolo [id=" + id + ", descrizione=" + descrizione + ", codice=" + codice + "]";
+	}
+
 }

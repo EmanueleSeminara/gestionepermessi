@@ -58,4 +58,9 @@ public class RuoloDTO {
 		}).collect(Collectors.toList());
 	}
 
+	@Override
+	public String toString() {
+		return "RuoloDTO [id=" + id + ", descrizione=" + descrizione + ", codice=" + codice + "]";
+	}
+
 }
