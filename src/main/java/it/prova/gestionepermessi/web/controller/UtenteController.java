@@ -33,6 +33,7 @@ public class UtenteController {
 		ModelAndView mv = new ModelAndView();
 		List<Utente> utenti = utenteService.listAllElements();
 		mv.addObject("utente_list_attribute", UtenteToShowDTO.createUtenteToShowDTOListFromModelList(utenti));
+		mv.addObject("path", "gestioneutenze");
 		mv.setViewName("utente/list");
 		return mv;
 	}
@@ -41,6 +42,7 @@ public class UtenteController {
 	public String searchUtente(Model model) {
 		model.addAttribute("ruoli_totali_attr",
 				RuoloDTO.createRuoloDTOListFromModelList(ruoloService.listAllElements()));
+		model.addAttribute("path", "gestioneutenze");
 		return "utente/search";
 	}
 
@@ -51,6 +53,7 @@ public class UtenteController {
 		List<Utente> utenti = utenteService
 				.findByExample(utenteExample.buildUtenteModel(true), pageNo, pageSize, sortBy).getContent();
 		model.addAttribute("utente_list_attribute", UtenteToShowDTO.createUtenteToShowDTOListFromModelList(utenti));
+		model.addAttribute("path", "gestioneutenze");
 		return "utente/list";
 	}
 }
