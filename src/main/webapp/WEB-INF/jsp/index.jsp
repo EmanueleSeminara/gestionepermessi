@@ -74,7 +74,7 @@
 				      <div class="card-body">
 				        <h5 class="card-title">Ricerca Dipendenti</h5>
 				        <p class="card-text"><svg class="bi bi-search" width="40%" height="40%"><use xlink:href="#search"/></svg></p>
-				        <a href="#" class="stretched-link"></a>
+				        <a href="/dipendente/search" class="stretched-link"></a>
 				      </div>
 				    </div>
 				  </div>

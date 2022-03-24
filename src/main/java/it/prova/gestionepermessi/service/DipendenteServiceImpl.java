@@ -126,10 +126,7 @@ public class DipendenteServiceImpl implements DipendenteService {
 		utenteAssociato.setUsername(Character.toLowerCase(dipendenteInstance.getNome().charAt(0)) + "."
 				+ dipendenteInstance.getCognome().toLowerCase());
 		utenteAssociato.setPassword(passwordEncoder.encode(defaultPassword));
-		System.out.println(utenteAssociato);
 		utenteRepository.save(utenteAssociato);
-		System.out.println(utenteAssociato);
-		System.out.println("DEFAULT PASSWORD: " + defaultPassword);
 		utenteAssociato.getRuoli().add(ruoliInput);
 		dipendenteInstance.setUtente(utenteAssociato);
 		dipendenteInstance.setEmail(Character.toLowerCase(dipendenteInstance.getNome().charAt(0)) + "."

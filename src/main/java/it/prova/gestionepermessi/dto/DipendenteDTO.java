@@ -2,12 +2,15 @@ package it.prova.gestionepermessi.dto;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.model.RichiestaPermesso;
 import it.prova.gestionepermessi.model.Sesso;
 
@@ -58,6 +61,20 @@ public class DipendenteDTO {
 		this.dataDimissioni = dataDimissioni;
 		this.sesso = sesso;
 		this.richiestePermesso = richiestePermesso;
+	}
+
+	public DipendenteDTO(Long id, String nome, String cognome, String codFis, String email, Date dataNascita,
+			Date dataAssunzione, Date dataDimissioni, Sesso sesso) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.codFis = codFis;
+		this.email = email;
+		this.dataNascita = dataNascita;
+		this.dataAssunzione = dataAssunzione;
+		this.dataDimissioni = dataDimissioni;
+		this.sesso = sesso;
 	}
 
 	public DipendenteDTO(String nome, String cognome, String codFis, String email, Date dataNascita, Sesso sesso) {
@@ -154,6 +171,28 @@ public class DipendenteDTO {
 
 	public void setRichiestePermesso(Set<RichiestaPermesso> richiestePermesso) {
 		this.richiestePermesso = richiestePermesso;
+	}
+
+	public static DipendenteDTO buildDipendenteDTOFromModel(Dipendente dipendenteModel) {
+		DipendenteDTO result = new DipendenteDTO(dipendenteModel.getId(), dipendenteModel.getNome(),
+				dipendenteModel.getCognome(), dipendenteModel.getCodFis(), dipendenteModel.getEmail(),
+				dipendenteModel.getDataNascita(), dipendenteModel.getDataAssunzione(),
+				dipendenteModel.getDataDimissioni(), dipendenteModel.getSesso());
+
+		return result;
+	}
+
+	public static List<DipendenteDTO> createDipendenteDTOListFromModelList(List<Dipendente> dipendentiInput) {
+		return dipendentiInput.stream().map(dipendenteEntity -> {
+			return DipendenteDTO.buildDipendenteDTOFromModel(dipendenteEntity);
+		}).collect(Collectors.toList());
+	}
+
+	public Dipendente buildDipendenteModel(boolean includeUtente) {
+		Dipendente result = new Dipendente(this.id, this.nome, this.cognome, this.codFis, this.email, this.dataNascita,
+				this.dataAssunzione, this.dataDimissioni, this.sesso);
+
+		return result;
 	}
 
 	@Override

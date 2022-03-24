@@ -42,7 +42,7 @@
           </li>
            -->
           <li class="nav-item">
-            <a class="nav-link ${path == 'ricercadipendenti'?'active':''}" aria-current="page" href="${pageContext.request.contextPath}/home">Ricerca Dipendenti</a>
+            <a class="nav-link ${path == 'ricercadipendenti'?'active':''}" aria-current="page" href="${pageContext.request.contextPath}/dipendente/search">Ricerca Dipendenti</a>
           </li>
            <sec:authorize access="hasRole('ADMIN')">
 		      <li class="nav-item dropdown">

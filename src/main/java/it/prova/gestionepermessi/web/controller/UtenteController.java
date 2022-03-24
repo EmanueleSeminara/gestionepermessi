@@ -58,8 +58,6 @@ public class UtenteController {
 	public String listUtenti(UtenteDTO utenteExample, @RequestParam(defaultValue = "0") Integer pageNo,
 			@RequestParam(defaultValue = "10") Integer pageSize, @RequestParam(defaultValue = "id") String sortBy,
 			ModelMap model) {
-		System.out.println(utenteExample);
-		System.out.println(utenteExample.getDipendente());
 		List<Utente> utenti = utenteService
 				.findByExample(utenteExample.buildUtenteModel(true, true), pageNo, pageSize, sortBy).getContent();
 		model.addAttribute("utente_list_attribute", UtenteToShowDTO.createUtenteToShowDTOListFromModelList(utenti));
