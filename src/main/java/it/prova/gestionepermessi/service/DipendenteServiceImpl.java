@@ -167,4 +167,9 @@ public class DipendenteServiceImpl implements DipendenteService {
 		dipendenteRepository.save(dipendenteReloaded);
 	}
 
+	@Transactional(readOnly = true)
+	public List<Dipendente> cercaByCognomeENomeILike(String term) {
+		return dipendenteRepository.findByCognomeIgnoreCaseContainingOrNomeIgnoreCaseContainingOrderByNomeAsc(term,
+				term);
+	}
 }

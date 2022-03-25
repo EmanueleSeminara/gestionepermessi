@@ -97,7 +97,7 @@
 								
 								<fmt:formatDate pattern='yyyy-MM-dd' var="parsedDate3" type='date' value='${edit_dipendente_attr.dataDimissioni}' />
 								<div class="col-md-3">
-									<label for="" class="form-label">Data Dimissioni <span class="text-danger">*</span></label>
+									<label for="" class="form-label">Data Dimissioni</label>
 	                        		<spring:bind path="dataDimissioni">
 		                        		<input class="form-control ${status.error ? 'is-invalid' : ''}" id="dataDimissioni" type="date" placeholder="dd/MM/yy"
 		                            		title="formato : gg/mm/aaaa"  name="dataDimissioni" required 

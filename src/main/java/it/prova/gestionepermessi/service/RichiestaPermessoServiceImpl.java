@@ -71,7 +71,6 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 
 			if (example.getDataInizio() != null)
 				predicates.add(cb.greaterThanOrEqualTo(root.get("dataInizio"), example.getDataInizio()));
-
 			if (example.isApprovato() != null)
 				predicates.add(cb.equal(root.get("approvato"), example.isApprovato()));
 
@@ -83,7 +82,7 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 				predicates.add(cb.like(cb.upper(root.get("note")), "%" + example.getNote().toUpperCase() + "%"));
 
 			if (example.getDipendente() != null && example.getDipendente().getId() != null)
-				predicates.add(cb.equal(root.get("dipendente.id"), example.getDipendente().getId()));
+				predicates.add(cb.equal(root.get("dipendente"), example.getDipendente().getId()));
 
 			root.fetch("dipendente", JoinType.LEFT);
 

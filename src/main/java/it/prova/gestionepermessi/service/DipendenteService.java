@@ -22,4 +22,6 @@ public interface DipendenteService {
 	public void rimuovi(Dipendente dipendenteInstance);
 
 	public Page<Dipendente> findByExample(Dipendente example, Integer pageNo, Integer pageSize, String sortBy);
+
+	public List<Dipendente> cercaByCognomeENomeILike(String term);
 }
