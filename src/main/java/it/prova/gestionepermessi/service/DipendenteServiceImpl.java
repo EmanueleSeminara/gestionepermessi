@@ -140,4 +140,31 @@ public class DipendenteServiceImpl implements DipendenteService {
 
 	}
 
+	@Override
+	@Transactional
+	public void aggiornaDipendenteEUtente(Dipendente dipendenteInstance) {
+		Dipendente dipendenteReloaded = dipendenteRepository.findByIdEager(dipendenteInstance.getId()).orElse(null);
+		Utente utenteAssociato = utenteRepository.findById(dipendenteReloaded.getUtente().getId()).orElse(null);
+
+		if (dipendenteReloaded == null || utenteAssociato == null) {
+			throw new RuntimeException("Elemento non trovato");
+		}
+
+		dipendenteReloaded.setNome(dipendenteInstance.getNome());
+		dipendenteReloaded.setCognome(dipendenteInstance.getCognome());
+		dipendenteReloaded.setCodFis(dipendenteInstance.getCodFis());
+		dipendenteReloaded.setDataNascita(dipendenteInstance.getDataNascita());
+		dipendenteReloaded.setDataAssunzione(dipendenteInstance.getDataAssunzione());
+		dipendenteReloaded.setDataDimissioni(dipendenteInstance.getDataDimissioni());
+		dipendenteReloaded.setSesso(dipendenteInstance.getSesso());
+
+		utenteAssociato.setUsername(Character.toLowerCase(dipendenteInstance.getNome().charAt(0)) + "."
+				+ dipendenteInstance.getCognome().toLowerCase());
+
+		dipendenteReloaded.setEmail(Character.toLowerCase(dipendenteInstance.getNome().charAt(0)) + "."
+				+ dipendenteInstance.getCognome().toLowerCase() + "@prova.it");
+
+		dipendenteRepository.save(dipendenteReloaded);
+	}
+
 }

@@ -15,6 +15,8 @@ public interface DipendenteService {
 
 	public void aggiorna(Dipendente dipendenteInstance);
 
+	public void aggiornaDipendenteEUtente(Dipendente dipendenteInstance);
+
 	public void inserisciDipendenteEUtenteConRuoli(Dipendente dipendenteInstance, Long ruoloId);
 
 	public void rimuovi(Dipendente dipendenteInstance);

@@ -41,7 +41,7 @@
             </ul> 
           </li>
            -->
-          <sec:authorize access="hasRole('ADMIN')">
+          <sec:authorize access="hasAnyRole('ADMIN', 'BO_USER')">
 		      <li class="nav-item dropdown">
 		        <a class="nav-link dropdown-toggle ${path == 'gestioneDipendenti'?'active':''}" " href="#" id="dropdown01" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestione Dipendenti</a>
 		        <div class="dropdown-menu" aria-labelledby="dropdown01">
@@ -53,6 +53,24 @@
            <sec:authorize access="hasRole('ADMIN')">
 		      <li class="nav-item dropdown">
 		        <a class="nav-link dropdown-toggle ${path == 'gestioneUtenze'?'active':''}" href="#" id="dropdown02" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestione Utenze</a>
+		        <div class="dropdown-menu" aria-labelledby="dropdown01">
+		          <a class="dropdown-item" href="${pageContext.request.contextPath}/utente/search">Ricerca Utenti</a>
+		          <a class="dropdown-item" href="${pageContext.request.contextPath}/utente/insert">Inserisci Utente</a>
+		        </div>
+		      </li>
+		   </sec:authorize>
+		   <sec:authorize access="hasRole('BO_USER')">
+		      <li class="nav-item dropdown">
+		        <a class="nav-link dropdown-toggle ${path == 'ricercaPermessi'?'active':''}" href="#" id="dropdown03" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ricerca Permessi</a>
+		        <div class="dropdown-menu" aria-labelledby="dropdown01">
+		          <a class="dropdown-item" href="${pageContext.request.contextPath}/utente/search">Ricerca Utenti</a>
+		          <a class="dropdown-item" href="${pageContext.request.contextPath}/utente/insert">Inserisci Utente</a>
+		        </div>
+		      </li>
+		   </sec:authorize>
+		   <sec:authorize access="hasRole('BO_USER')">
+		      <li class="nav-item dropdown">
+		        <a class="nav-link dropdown-toggle ${path == 'gestioneMessaggi'?'active':''}" href="#" id="dropdown04" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestione Messaggi</a>
 		        <div class="dropdown-menu" aria-labelledby="dropdown01">
 		          <a class="dropdown-item" href="${pageContext.request.contextPath}/utente/search">Ricerca Utenti</a>
 		          <a class="dropdown-item" href="${pageContext.request.contextPath}/utente/insert">Inserisci Utente</a>

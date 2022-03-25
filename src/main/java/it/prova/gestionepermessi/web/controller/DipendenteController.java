@@ -2,6 +2,8 @@ package it.prova.gestionepermessi.web.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,7 +65,7 @@ public class DipendenteController {
 	public String showDipendente(@PathVariable(required = true) Long idDipendente, Model model) {
 		model.addAttribute("show_dipendente_attr",
 				DipendenteDTO.buildDipendenteDTOFromModel(dipendenteService.caricaSingoloElementoEager(idDipendente)));
-		model.addAttribute("path", "gestioneUtenze");
+		model.addAttribute("path", "gestioneDipendenti");
 
 		return "dipendente/show";
 	}
@@ -85,17 +87,33 @@ public class DipendenteController {
 			BindingResult result, Model model, RedirectAttributes redirectAttrs) {
 
 		if (result.hasErrors()) {
-			System.out.println("CI SONO ERRORI DI VALIDAZIONE");
-			System.out.println("Dipendente: " + dipendenteDTO.getRuoloId());
-			System.out.println(result);
-//			System.out.println(dipendenteDTO.getRuolo() instanceof RuoloDTO);
 			RuoloDTO.createRuoloDTOListFromModelList(ruoloService.listAllElementsExceptBy(
 					new Long[] { ruoloService.cercaPerDescrizioneECodice("Administrator", "ROLE_ADMIN").getId() }));
 			return "dipendente/insert";
 		}
-//		dipendenteDTO.setRuolo(new RuoloDTO(ruoloInput));
 		dipendenteService.inserisciDipendenteEUtenteConRuoli(dipendenteDTO.buildDipendenteModel(true),
 				dipendenteDTO.getRuoloId());
+
+		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
+		return "redirect:/dipendente";
+	}
+
+	@GetMapping("/edit/{idDipendente}")
+	public String edit(@PathVariable(required = true) Long idDipendente, Model model) {
+		Dipendente dipendenteModel = dipendenteService.caricaSingoloElementoEager(idDipendente);
+		model.addAttribute("edit_dipendente_attr", DipendenteDTO.buildDipendenteDTOFromModel(dipendenteModel));
+		model.addAttribute("path", "gestioneDipendenti");
+		return "dipendente/edit";
+	}
+
+	@PostMapping("/update")
+	public String update(@Validated @ModelAttribute("edit_dipendente_attr") DipendenteDTO dipendenteDTO,
+			BindingResult result, Model model, RedirectAttributes redirectAttrs, HttpServletRequest request) {
+
+		if (result.hasErrors()) {
+			return "dipendente/edit";
+		}
+		dipendenteService.aggiornaDipendenteEUtente(dipendenteDTO.buildDipendenteModel(true));
 
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/dipendente";

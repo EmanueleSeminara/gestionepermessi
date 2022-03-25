@@ -166,8 +166,6 @@ public class DipendenteDTO {
 		this.sesso = sesso;
 	}
 
-
-
 	public Long getRuoloId() {
 		return ruoloId;
 	}

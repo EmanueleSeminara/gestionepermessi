@@ -68,7 +68,7 @@
 			  <div class="container px-4 py-5" id="featured-3">
 			   
 			    <div class="row">
-				  
+				  <sec:authorize access="hasAnyRole('ADMIN', 'BO_USER')">
 				  <div class="col-sm-3 mx-auto">
 				    <div class="card border-primary text-center">
 				      <div class="card-body">
@@ -78,6 +78,33 @@
 				      </div>
 				    </div>
 				  </div>
+				  </sec:authorize>
+				  
+				  <sec:authorize access="hasRole('BO_USER')">
+				  <div class="col-sm-3 mx-auto">
+				    <div class="card border-primary text-center">
+				      <div class="card-body">
+				        <h5 class="card-title">Ricerca Permessi</h5>
+				        <p class="card-text"><svg class="bi bi-search" width="40%" height="40%"><use xlink:href="#search"/></svg></p>
+				        <a href="/dipendente/search" class="stretched-link"></a>
+				      </div>
+				    </div>
+				  </div>
+				  </sec:authorize>
+				  
+				  <sec:authorize access="hasRole('BO_USER')">
+				  <div class="col-sm-3 mx-auto">
+				    <div class="card border-primary text-center">
+				      <div class="card-body">
+				        <h5 class="card-title">Gestione Messaggi</h5>
+				        <p class="card-text"><svg class="bi bi-search" width="40%" height="40%"><use xlink:href="#search"/></svg></p>
+				        <a href="/dipendente/search" class="stretched-link"></a>
+				      </div>
+				    </div>
+				  </div>
+				  </sec:authorize>
+				  
+				  <sec:authorize access="hasRole('ADMIN')">
 				  <div class="col-sm-3 mx-auto">
 				    <div class="card border-primary text-center">
 				      <div class="card-body">
@@ -87,6 +114,7 @@
 				      </div>
 				    </div>
 				  </div>
+				  </sec:authorize>
 		
 				  
 				</div>
