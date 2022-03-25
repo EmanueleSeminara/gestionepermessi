@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,5 +51,21 @@ public class RichiestaPermessoController {
 				RichiestaPermessoDTO.createRichiestaPermessoDTOListFromModelList(richiestePermessi));
 		model.addAttribute("path", "ricercaPermessi");
 		return "richiestapermesso/list";
+	}
+
+	@GetMapping("/show/{idRichiestaPermesso}")
+	public String showRichiestaPermesso(@PathVariable(required = true) Long idRichiestaPermesso, Model model) {
+		System.out.println("SEI DENTRO");
+		model.addAttribute("show_richiestaPermesso_attr", RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(
+				richiestaPermessoService.caricaSingoloElementoEager(idRichiestaPermesso)));
+		model.addAttribute("path", "ricercaPermessi");
+
+		return "richiestapermesso/show";
+	}
+	
+	@PostMapping("/cambiaStato")
+	public String cambiaStato(@RequestParam(name = "idRichiestaPermessoForChangingStato", required = true) Long idRichiestaPermesso) {
+		richiestaPermessoService.changeRichiestaPermessoStato(idRichiestaPermesso);
+		return "redirect:/richiestapermesso";
 	}
 }

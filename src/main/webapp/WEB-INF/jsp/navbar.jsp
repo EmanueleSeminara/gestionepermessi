@@ -43,7 +43,7 @@
            -->
           <sec:authorize access="hasAnyRole('ADMIN', 'BO_USER')">
 		      <li class="nav-item dropdown">
-		        <a class="nav-link dropdown-toggle ${path == 'gestioneDipendenti'?'active':''}" " href="#" id="dropdown01" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestione Dipendenti</a>
+		        <a class="nav-link dropdown-toggle ${path == 'gestioneDipendenti'?'active':''}" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestione Dipendenti</a>
 		        <div class="dropdown-menu" aria-labelledby="dropdown01">
 		          <a class="dropdown-item" href="${pageContext.request.contextPath}/dipendente/search">Ricerca Dipendenti</a>
 		          <a class="dropdown-item" href="${pageContext.request.contextPath}/dipendente/insert">Inserisci Dipendente</a>
@@ -60,13 +60,9 @@
 		      </li>
 		   </sec:authorize>
 		   <sec:authorize access="hasRole('BO_USER')">
-		      <li class="nav-item dropdown">
-		        <a class="nav-link dropdown-toggle ${path == 'ricercaPermessi'?'active':''}" href="#" id="dropdown03" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ricerca Permessi</a>
-		        <div class="dropdown-menu" aria-labelledby="dropdown01">
-		          <a class="dropdown-item" href="${pageContext.request.contextPath}/utente/search">Ricerca Utenti</a>
-		          <a class="dropdown-item" href="${pageContext.request.contextPath}/utente/insert">Inserisci Utente</a>
-		        </div>
-		      </li>
+		    <li class="nav-item">
+            	<a class="nav-link ${path == 'ricercaPermessi'?'active':''}" aria-current="page" href="${pageContext.request.contextPath}/richiestapermesso/search">Ricerca Permessi</a>
+          	</li>
 		   </sec:authorize>
 		   <sec:authorize access="hasRole('BO_USER')">
 		      <li class="nav-item dropdown">

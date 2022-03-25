@@ -1,6 +1,7 @@
 package it.prova.gestionepermessi.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.criteria.JoinType;
@@ -16,6 +17,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.prova.gestionepermessi.exceptions.RichiestaPermessoConDataInizioSuperataException;
 import it.prova.gestionepermessi.model.RichiestaPermesso;
 import it.prova.gestionepermessi.repository.RichiestaPermessoRepository;
 
@@ -102,6 +104,26 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 	@Override
 	public RichiestaPermesso caricaSingoloElementoEager(Long id) {
 		return repository.findByIdEager(id).orElse(null);
+	}
+
+	@Override
+	@Transactional
+	public void changeRichiestaPermessoStato(Long richiestaPermessoInstanceId) {
+		RichiestaPermesso richiestaPermessoInstance = caricaSingoloElemento(richiestaPermessoInstanceId);
+		if (richiestaPermessoInstance == null)
+			throw new RuntimeException("Elemento non trovato.");
+
+		if (richiestaPermessoInstance.getDataInizio().before(new Date())) {
+			throw new RichiestaPermessoConDataInizioSuperataException(
+					"Impossibile modificare lo stato della richiesta");
+		}
+
+		if (richiestaPermessoInstance.isApprovato()) {
+			richiestaPermessoInstance.setApprovato(false);
+		} else {
+			richiestaPermessoInstance.setApprovato(true);
+		}
+
 	}
 
 }

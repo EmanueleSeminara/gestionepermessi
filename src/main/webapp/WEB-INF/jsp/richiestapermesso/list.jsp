@@ -1,5 +1,6 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!doctype html>
 <html lang="it" class="h-100">
 <head>
@@ -47,8 +48,10 @@
 										<td>${richiestaPermessoItem.tipoPermesso }</td>
 										<td>${richiestaPermessoItem.approvato?'APPROVATO':'NON APPROVATO'}</td>
 										<td>
-											<a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/utente/show/${richiestaPermessoItem.id }">Visualizza</a>
-											<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath}/utente/edit/${richiestaPermessoItem.id }">Edit</a>
+											<a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/richiestapermesso/show/${richiestaPermessoItem.id }">Visualizza</a>
+											<sec:authorize access="hasRole('DIPENDENTE_USER')">
+												<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath}/richiestapermesso/edit/${richiestaPermessoItem.id }">Edit</a>
+											</sec:authorize>
 										</td>
 									</tr>
 								</c:forEach>
