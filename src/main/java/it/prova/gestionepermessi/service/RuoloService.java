@@ -6,6 +6,8 @@ import it.prova.gestionepermessi.model.Ruolo;
 
 public interface RuoloService {
 	public List<Ruolo> listAllElements();
+	
+	public List<Ruolo> listAllElementsExceptBy(Long[] ruoliIds);
 
 	public Ruolo caricaSingoloElemento(Long id);
 

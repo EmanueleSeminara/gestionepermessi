@@ -28,6 +28,7 @@
 			        <h5>Lista dei Dipendenti</h5> 
 			    </div>
 			    <div class='card-body'>
+			    <a class="btn btn-primary " href="${pageContext.request.contextPath}/dipendente/insert">Add New</a>
 			    	<a href="${pageContext.request.contextPath}/dipendente/search" class='btn btn-outline-secondary' >
 				            <i class='fa fa-chevron-left'></i> Torna alla Ricerca
 				        </a>

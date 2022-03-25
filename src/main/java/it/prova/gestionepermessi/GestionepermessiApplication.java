@@ -51,7 +51,7 @@ public class GestionepermessiApplication implements CommandLineRunner {
 			Dipendente admin = new Dipendente("Mario", "Rossi");
 //			
 			dipendenteServiceInstance.inserisciDipendenteEUtenteConRuoli(admin,
-					ruoloServiceInstance.cercaPerDescrizioneECodice("Administrator", "ROLE_ADMIN"));
+					ruoloServiceInstance.cercaPerDescrizioneECodice("Administrator", "ROLE_ADMIN").getId());
 			// l'inserimento avviene come created ma io voglio attivarlo
 			utenteServiceInstance.changeUserAbilitation(admin.getUtente().getId());
 		}
@@ -64,7 +64,7 @@ public class GestionepermessiApplication implements CommandLineRunner {
 
 //			
 			dipendenteServiceInstance.inserisciDipendenteEUtenteConRuoli(admin,
-					ruoloServiceInstance.cercaPerDescrizioneECodice("Administrator", "ROLE_ADMIN"));
+					ruoloServiceInstance.cercaPerDescrizioneECodice("Administrator", "ROLE_ADMIN").getId());
 			// l'inserimento avviene come created ma io voglio attivarlo
 			utenteServiceInstance.changeUserAbilitation(admin.getUtente().getId());
 		}

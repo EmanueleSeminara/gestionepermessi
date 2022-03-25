@@ -18,6 +18,17 @@ public class RuoloDTO {
 		this.codice = codice;
 	}
 
+	public RuoloDTO(Long id, String codice) {
+		super();
+		this.id = id;
+		this.codice = codice;
+	}
+
+	public RuoloDTO(String codice) {
+		super();
+		this.codice = codice;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -56,6 +67,10 @@ public class RuoloDTO {
 		return modelListInput.stream().map(ruoloEntity -> {
 			return RuoloDTO.buildRuoloDTOFromModel(ruoloEntity);
 		}).collect(Collectors.toList());
+	}
+
+	public Ruolo buildModelFromRuoloDTO() {
+		return new Ruolo(this.getId(), this.getDescrizione(), this.getCodice());
 	}
 
 	@Override

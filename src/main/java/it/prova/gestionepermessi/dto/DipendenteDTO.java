@@ -25,10 +25,9 @@ public class DipendenteDTO {
 	private String cognome;
 
 	@NotBlank(message = "{codFis.notblank}")
-	@Size(min = 16, max = 16, message = "Il valore inserito deve essere lungo tra {min} e {max} caratteri")
+	@Size(min = 16, max = 16, message = "Il valore inserito deve essere lungo esattamente {min} caratteri")
 	private String codFis;
 
-	@NotBlank(message = "{email.notblank}")
 	private String email;
 
 	@NotNull(message = "{dataNascita.notnull}")
@@ -39,10 +38,12 @@ public class DipendenteDTO {
 
 	private Date dataDimissioni;
 
-	@NotBlank(message = "{sesso.notblank}")
+	@NotNull(message = "{sesso.notblank}")
 	private Sesso sesso;
 
 	private Set<RichiestaPermesso> richiestePermesso = new HashSet<>();
+
+	private Long ruoloId;
 
 	public DipendenteDTO() {
 		super();
@@ -165,6 +166,16 @@ public class DipendenteDTO {
 		this.sesso = sesso;
 	}
 
+
+
+	public Long getRuoloId() {
+		return ruoloId;
+	}
+
+	public void setRuoloId(Long ruoloId) {
+		this.ruoloId = ruoloId;
+	}
+
 	public Set<RichiestaPermesso> getRichiestePermesso() {
 		return richiestePermesso;
 	}
@@ -201,4 +212,5 @@ public class DipendenteDTO {
 				+ email + ", dataNascita=" + dataNascita + ", dataAssunzione=" + dataAssunzione + ", dataDimissioni="
 				+ dataDimissioni + ", sesso=" + sesso + "]";
 	}
+
 }

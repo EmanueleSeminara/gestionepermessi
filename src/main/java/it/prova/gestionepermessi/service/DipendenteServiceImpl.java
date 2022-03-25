@@ -23,6 +23,7 @@ import it.prova.gestionepermessi.model.Ruolo;
 import it.prova.gestionepermessi.model.StatoUtente;
 import it.prova.gestionepermessi.model.Utente;
 import it.prova.gestionepermessi.repository.DipendenteRepository;
+import it.prova.gestionepermessi.repository.RuoloRepository;
 import it.prova.gestionepermessi.repository.UtenteRepository;
 
 @Service
@@ -33,6 +34,9 @@ public class DipendenteServiceImpl implements DipendenteService {
 
 	@Autowired
 	private UtenteRepository utenteRepository;
+
+	@Autowired
+	private RuoloRepository ruoloRepository;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -115,7 +119,7 @@ public class DipendenteServiceImpl implements DipendenteService {
 
 	@Override
 	@Transactional
-	public void inserisciDipendenteEUtenteConRuoli(Dipendente dipendenteInstance, Ruolo ruoliInput) {
+	public void inserisciDipendenteEUtenteConRuoli(Dipendente dipendenteInstance, Long ruoloId) {
 		if (dipendenteInstance == null || dipendenteInstance.getId() != null) {
 			throw new NullPointerException("Elemento non valido");
 		}
@@ -127,7 +131,8 @@ public class DipendenteServiceImpl implements DipendenteService {
 				+ dipendenteInstance.getCognome().toLowerCase());
 		utenteAssociato.setPassword(passwordEncoder.encode(defaultPassword));
 		utenteRepository.save(utenteAssociato);
-		utenteAssociato.getRuoli().add(ruoliInput);
+		utenteAssociato.getRuoli().add(new Ruolo(ruoloId));
+
 		dipendenteInstance.setUtente(utenteAssociato);
 		dipendenteInstance.setEmail(Character.toLowerCase(dipendenteInstance.getNome().charAt(0)) + "."
 				+ dipendenteInstance.getCognome().toLowerCase() + "@prova.it");

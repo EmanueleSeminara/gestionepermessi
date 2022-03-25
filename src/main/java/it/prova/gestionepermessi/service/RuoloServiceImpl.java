@@ -50,4 +50,9 @@ public class RuoloServiceImpl implements RuoloService {
 		return repository.findByDescrizioneAndCodice(descrizione, codice);
 	}
 
+	@Override
+	public List<Ruolo> listAllElementsExceptBy(Long[] ruoliIds) {
+		return repository.findByIdNotIn(ruoliIds);
+	}
+
 }
