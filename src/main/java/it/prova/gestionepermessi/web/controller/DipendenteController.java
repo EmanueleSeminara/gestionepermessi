@@ -37,14 +37,14 @@ public class DipendenteController {
 		ModelAndView mv = new ModelAndView();
 		List<Dipendente> dipendenti = dipendenteService.listAllElements();
 		mv.addObject("dipendente_list_attribute", DipendenteDTO.createDipendenteDTOListFromModelList(dipendenti));
-		mv.addObject("path", "ricercadipendenti");
+		mv.addObject("path", "gestioneDipendenti");
 		mv.setViewName("dipendente/list");
 		return mv;
 	}
 
 	@GetMapping("/search")
 	public String searchDipendente(Model model) {
-		model.addAttribute("path", "ricercadipendenti");
+		model.addAttribute("path", "gestioneDipendenti");
 		return "dipendente/search";
 	}
 
@@ -55,7 +55,7 @@ public class DipendenteController {
 		List<Dipendente> dipendenti = dipendenteService
 				.findByExample(dipendenteExample.buildDipendenteModel(true), pageNo, pageSize, sortBy).getContent();
 		model.addAttribute("dipendente_list_attribute", DipendenteDTO.createDipendenteDTOListFromModelList(dipendenti));
-		model.addAttribute("path", "ricercadipendenti");
+		model.addAttribute("path", "gestioneDipendenti");
 		return "dipendente/list";
 	}
 
@@ -63,7 +63,7 @@ public class DipendenteController {
 	public String showDipendente(@PathVariable(required = true) Long idDipendente, Model model) {
 		model.addAttribute("show_dipendente_attr",
 				DipendenteDTO.buildDipendenteDTOFromModel(dipendenteService.caricaSingoloElementoEager(idDipendente)));
-		model.addAttribute("path", "gestioneutenze");
+		model.addAttribute("path", "gestioneUtenze");
 
 		return "dipendente/show";
 	}
@@ -74,6 +74,7 @@ public class DipendenteController {
 				RuoloDTO.createRuoloDTOListFromModelList(ruoloService.listAllElementsExceptBy(new Long[] {
 						ruoloService.cercaPerDescrizioneECodice("Administrator", "ROLE_ADMIN").getId() })));
 		model.addAttribute("insert_dipendente_attr", new DipendenteDTO());
+		model.addAttribute("path", "gestioneDipendenti");
 		return "dipendente/insert";
 	}
 

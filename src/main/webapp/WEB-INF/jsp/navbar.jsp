@@ -41,12 +41,18 @@
             </ul> 
           </li>
            -->
-          <li class="nav-item">
-            <a class="nav-link ${path == 'ricercadipendenti'?'active':''}" aria-current="page" href="${pageContext.request.contextPath}/dipendente/search">Ricerca Dipendenti</a>
-          </li>
+          <sec:authorize access="hasRole('ADMIN')">
+		      <li class="nav-item dropdown">
+		        <a class="nav-link dropdown-toggle ${path == 'gestioneDipendenti'?'active':''}" " href="#" id="dropdown01" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestione Dipendenti</a>
+		        <div class="dropdown-menu" aria-labelledby="dropdown01">
+		          <a class="dropdown-item" href="${pageContext.request.contextPath}/dipendente/search">Ricerca Dipendenti</a>
+		          <a class="dropdown-item" href="${pageContext.request.contextPath}/dipendente/insert">Inserisci Dipendente</a>
+		        </div>
+		      </li>
+		   </sec:authorize>
            <sec:authorize access="hasRole('ADMIN')">
 		      <li class="nav-item dropdown">
-		        <a class="nav-link dropdown-toggle ${path == 'gestioneutenze'?'active':''}" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestione Utenze</a>
+		        <a class="nav-link dropdown-toggle ${path == 'gestioneUtenze'?'active':''}" href="#" id="dropdown02" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestione Utenze</a>
 		        <div class="dropdown-menu" aria-labelledby="dropdown01">
 		          <a class="dropdown-item" href="${pageContext.request.contextPath}/utente/search">Ricerca Utenti</a>
 		          <a class="dropdown-item" href="${pageContext.request.contextPath}/utente/insert">Inserisci Utente</a>

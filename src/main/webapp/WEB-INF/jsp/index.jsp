@@ -72,7 +72,7 @@
 				  <div class="col-sm-3 mx-auto">
 				    <div class="card border-primary text-center">
 				      <div class="card-body">
-				        <h5 class="card-title">Ricerca Dipendenti</h5>
+				        <h5 class="card-title">Gestione Dipendenti</h5>
 				        <p class="card-text"><svg class="bi bi-search" width="40%" height="40%"><use xlink:href="#search"/></svg></p>
 				        <a href="/dipendente/search" class="stretched-link"></a>
 				      </div>
