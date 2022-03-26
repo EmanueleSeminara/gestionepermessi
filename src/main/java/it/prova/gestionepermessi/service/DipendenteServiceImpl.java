@@ -172,4 +172,10 @@ public class DipendenteServiceImpl implements DipendenteService {
 		return dipendenteRepository.findByCognomeIgnoreCaseContainingOrNomeIgnoreCaseContainingOrderByNomeAsc(term,
 				term);
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Dipendente caricaSingoloElementoByUtenteId(Long idUtente) {
+		return dipendenteRepository.finbByUtente(idUtente);
+	}
 }

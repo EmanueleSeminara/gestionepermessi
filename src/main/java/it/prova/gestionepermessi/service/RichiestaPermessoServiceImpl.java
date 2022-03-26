@@ -18,7 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.gestionepermessi.exceptions.RichiestaPermessoConDataInizioSuperataException;
+import it.prova.gestionepermessi.model.Messaggio;
 import it.prova.gestionepermessi.model.RichiestaPermesso;
+import it.prova.gestionepermessi.model.Utente;
+import it.prova.gestionepermessi.repository.MessaggioRepository;
 import it.prova.gestionepermessi.repository.RichiestaPermessoRepository;
 
 @Service
@@ -27,10 +30,25 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 	@Autowired
 	private RichiestaPermessoRepository repository;
 
+	@Autowired
+	private MessaggioRepository messaggioRepository;
+
+	@Autowired
+	private DipendenteService dipendenteService;
+
+	@Autowired
+	private UtenteService utenteService;
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<RichiestaPermesso> listAllElements() {
 		return (List<RichiestaPermesso>) repository.findAll();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<RichiestaPermesso> listAllElementsByUsername(String usernameInput) {
+		return (List<RichiestaPermesso>) repository.findByUsername(usernameInput);
 	}
 
 	@Override
@@ -124,6 +142,62 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 			richiestaPermessoInstance.setApprovato(true);
 		}
 
+	}
+
+	@Override
+	@Transactional
+	public void inserisciNuovaRichiestaPermessoECreaMessaggio(RichiestaPermesso richiestaPermessoInstance,
+			String usernameInput) {
+		Utente utenteRichiesta = utenteService.findByUsername(usernameInput);
+		if (utenteRichiesta == null) {
+			System.out.println("PROBLEMA");
+		}
+
+		richiestaPermessoInstance.setDipendente(utenteRichiesta.getDipendente());
+		repository.save(richiestaPermessoInstance);
+
+		System.out.println(utenteRichiesta);
+		System.out.println(utenteRichiesta.getDipendente());
+		System.out.println(utenteRichiesta.getDipendente().getId() == null);
+		System.out.println(richiestaPermessoInstance.getId() == null);
+		if (utenteRichiesta.getDipendente().getId() == null || richiestaPermessoInstance.getId() == null) {
+			throw new IllegalArgumentException("Errore");
+		}
+		repository.save(richiestaPermessoInstance);
+		Messaggio nuovoMessaggio = new Messaggio();
+		nuovoMessaggio.setOggetto("Richiesta permesso da parte di " + utenteRichiesta.getDipendente().getNome() + " "
+				+ utenteRichiesta.getDipendente().getCognome());
+		String testoMessaggio = "";
+
+		testoMessaggio = "Il dipendente " + utenteRichiesta.getDipendente().getNome() + " ha richiesto un permesso per "
+				+ richiestaPermessoInstance.getTipoPermesso();
+
+		if (richiestaPermessoInstance.getDataFine() != null) {
+			testoMessaggio += " nei giorni " + richiestaPermessoInstance.getDataInizio() + " "
+					+ richiestaPermessoInstance.getDataFine() + "\n";
+		} else {
+			testoMessaggio += " nel giorno " + richiestaPermessoInstance.getDataInizio();
+		}
+
+		if (richiestaPermessoInstance.getAttachment() != null) {
+			testoMessaggio += "Nella richiesta è statto allegato un file disponibile per il download: "; // inserire
+																											// informazioni
+																											// quando si
+																											// capirà
+																											// ola
+																											// gestione
+																											// file
+		}
+		if (richiestaPermessoInstance.getCodiceCertificato() != null) {
+			testoMessaggio += " Il codice del certificato è: " + richiestaPermessoInstance.getCodiceCertificato();
+		}
+		if (richiestaPermessoInstance.getNote() != null) {
+			testoMessaggio += "Nella richiesta sono presenti le seguenti note: " + richiestaPermessoInstance.getNote();
+		}
+
+		nuovoMessaggio.setTesto(testoMessaggio);
+		nuovoMessaggio.setRichiestaPermesso(richiestaPermessoInstance);
+		messaggioRepository.save(nuovoMessaggio);
 	}
 
 }

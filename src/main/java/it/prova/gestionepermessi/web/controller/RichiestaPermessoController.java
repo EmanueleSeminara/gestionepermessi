@@ -8,13 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.prova.gestionepermessi.dto.RichiestaPermessoDTO;
 import it.prova.gestionepermessi.model.RichiestaPermesso;
@@ -37,6 +41,7 @@ public class RichiestaPermessoController {
 
 	@GetMapping
 	public ModelAndView listAllRichiestePermesso(Model model) {
+		System.out.println("SEI NEL PATH BASE");
 		ModelAndView mv = new ModelAndView();
 		Set<String> roles = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
 				.map(r -> r.getAuthority()).collect(Collectors.toSet());
@@ -48,7 +53,12 @@ public class RichiestaPermessoController {
 			checkMessaggeIfBO(model);
 			mv.setViewName("richiestapermesso/list");
 		} else if (roles.contains("ROLE_DIPENDENTE_USER")) {
-
+			List<RichiestaPermesso> richiestePermesso = richiestaPermessoService
+					.listAllElementsByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+			mv.addObject("richiestePermesso_list_attribute",
+					RichiestaPermessoDTO.createRichiestaPermessoDTOListFromModelList(richiestePermesso));
+			mv.addObject("path", "gestioneRichiestePermesso");
+			mv.setViewName("richiestapermesso/list");
 		} else {
 			mv.addObject("path", "home");
 			mv.setViewName("home");
@@ -116,5 +126,31 @@ public class RichiestaPermessoController {
 		System.out.println("SEI DENTRO!!!!!!");
 		model.addAttribute("path", "gestioneRichiestePermesso");
 		return "richiestapermesso/searchPersonal";
+	}
+
+	@GetMapping("/insert")
+	public String create(Model model) {
+
+		model.addAttribute("insert_richiestaPermesso_attr", new RichiestaPermessoDTO());
+		model.addAttribute("path", "gestioneRichiestePermesso");
+		return "richiestapermesso/insert";
+	}
+
+	// per la validazione devo usare i groups in quanto nella insert devo validare
+	// la pwd, nella edit no
+	@PostMapping("/save")
+	public String save(
+			@Validated @ModelAttribute("insert_richiestaPermesso_attr") RichiestaPermessoDTO richiestaPermessoDTO,
+			BindingResult result, Model model, RedirectAttributes redirectAttrs) {
+		System.out.println("CI SEI FRATELLO!!!!");
+		if (result.hasErrors()) {
+			return "richiestapermesso/insert";
+		}
+		richiestaPermessoService.inserisciNuovaRichiestaPermessoECreaMessaggio(
+				richiestaPermessoDTO.buildRichiestaPermessoModel(true),
+				SecurityContextHolder.getContext().getAuthentication().getName());
+
+		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
+		return "redirect:/richiestapermesso";
 	}
 }

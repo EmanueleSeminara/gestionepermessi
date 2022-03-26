@@ -9,6 +9,8 @@ import it.prova.gestionepermessi.model.RichiestaPermesso;
 public interface RichiestaPermessoService {
 	public List<RichiestaPermesso> listAllElements();
 
+	public List<RichiestaPermesso> listAllElementsByUsername(String usernameInput);
+
 	public RichiestaPermesso caricaSingoloElemento(Long id);
 
 	public RichiestaPermesso caricaSingoloElementoEager(Long id);
@@ -23,4 +25,7 @@ public interface RichiestaPermessoService {
 			String sortBy);
 
 	public void changeRichiestaPermessoStato(Long richiestaPermessoInstanceId);
+
+	public void inserisciNuovaRichiestaPermessoECreaMessaggio(RichiestaPermesso richiestaPermessoInstance,
+			String usernameInput);
 }

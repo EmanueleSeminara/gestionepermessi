@@ -17,4 +17,8 @@ public interface DipendenteRepository
 
 	List<Dipendente> findByCognomeIgnoreCaseContainingOrNomeIgnoreCaseContainingOrderByNomeAsc(String cognome,
 			String nome);
+
+	@Query("from Dipendente where utente_id = ?1")
+	Dipendente finbByUtente(Long idUtente);
+
 }
