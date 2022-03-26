@@ -12,4 +12,6 @@ public interface MessaggioRepository
 		extends PagingAndSortingRepository<Messaggio, Long>, JpaSpecificationExecutor<Messaggio> {
 	@Query("from Messaggio m left join fetch m.richiestaPermesso r left join fetch r.dipendente where m.id = ?1")
 	public Optional<Messaggio> findByIdEager(Long idMessaggio);
+	
+	public int countByLetto(boolean lettoInput);
 }

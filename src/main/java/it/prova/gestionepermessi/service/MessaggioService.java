@@ -20,4 +20,6 @@ public interface MessaggioService {
 	public void rimuovi(Messaggio messaggioInstance);
 
 	public Page<Messaggio> findByExample(Messaggio example, Integer pageNo, Integer pageSize, String sortBy);
+
+	public int numeroMessaggiDaLeggere();
 }

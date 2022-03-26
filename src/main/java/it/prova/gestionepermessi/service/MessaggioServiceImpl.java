@@ -67,6 +67,9 @@ public class MessaggioServiceImpl implements MessaggioService {
 			if (StringUtils.isNotEmpty(example.getOggetto()))
 				predicates.add(cb.like(cb.upper(root.get("oggetto")), "%" + example.getOggetto().toUpperCase() + "%"));
 
+			if (example.getLetto() != null)
+				predicates.add(cb.equal(root.get("letto"), example.getLetto()));
+
 			return cb.and(predicates.toArray(new Predicate[predicates.size()]));
 		};
 
@@ -83,6 +86,11 @@ public class MessaggioServiceImpl implements MessaggioService {
 	@Override
 	public Messaggio caricaSingoloElementoEager(Long id) {
 		return repository.findByIdEager(id).orElse(null);
+	}
+
+	@Override
+	public int numeroMessaggiDaLeggere() {
+		return repository.countByLetto(false);
 	}
 
 }

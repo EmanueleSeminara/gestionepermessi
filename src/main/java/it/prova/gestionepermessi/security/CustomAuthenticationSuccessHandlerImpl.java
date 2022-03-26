@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import it.prova.gestionepermessi.dto.UtenteInfoDTO;
 import it.prova.gestionepermessi.model.Utente;
+import it.prova.gestionepermessi.repository.MessaggioRepository;
 import it.prova.gestionepermessi.repository.UtenteRepository;
 
 @Component
@@ -21,6 +22,9 @@ public class CustomAuthenticationSuccessHandlerImpl implements AuthenticationSuc
 
 	@Autowired
 	private UtenteRepository utenteRepository;
+
+	@Autowired
+	private MessaggioRepository messaggioRepository;
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -35,6 +39,10 @@ public class CustomAuthenticationSuccessHandlerImpl implements AuthenticationSuc
 		utenteParziale.setNome(utenteFromDb.getDipendente().getNome());
 		utenteParziale.setCognome(utenteFromDb.getDipendente().getCognome());
 		request.getSession().setAttribute("userInfo", utenteParziale);
+		System.out.println(messaggioRepository.countByLetto(false));
+		if (utenteFromDb.isBackOffice()) {
+			request.getSession().setAttribute("message_count", messaggioRepository.countByLetto(false));
+		}
 		response.sendRedirect("home");
 
 	}

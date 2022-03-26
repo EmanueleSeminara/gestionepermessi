@@ -141,6 +141,14 @@ public class Utente {
 		}
 		return false;
 	}
+	
+	public boolean isBackOffice() {
+		for (Ruolo ruoloItem : ruoli) {
+			if (ruoloItem.getCodice().equals(Ruolo.ROLE_BO_USER))
+				return true;
+		}
+		return false;
+	}
 
 	public boolean isAttivo() {
 		return this.stato != null && this.stato.equals(StatoUtente.ATTIVO);

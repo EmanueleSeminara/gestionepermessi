@@ -26,7 +26,7 @@ public class Messaggio {
 	private String oggetto;
 
 	@Column(name = "letto")
-	private boolean letto = false;
+	private Boolean letto = false;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "richiestapermesso_id", referencedColumnName = "id", nullable = true)
@@ -36,7 +36,30 @@ public class Messaggio {
 		super();
 	}
 
-	public Messaggio(String testo, String oggetto, boolean letto, RichiestaPermesso richiestaPermesso) {
+	public Messaggio(Boolean letto) {
+		super();
+		this.letto = letto;
+	}
+
+	public Messaggio(Long id) {
+		super();
+		this.id = id;
+	}
+
+	public Messaggio(String testo) {
+		super();
+		this.testo = testo;
+	}
+
+	public Messaggio(Long id, String testo, String oggetto, Boolean letto) {
+		super();
+		this.id = id;
+		this.testo = testo;
+		this.oggetto = oggetto;
+		this.letto = letto;
+	}
+
+	public Messaggio(String testo, String oggetto, Boolean letto, RichiestaPermesso richiestaPermesso) {
 		super();
 		this.testo = testo;
 		this.oggetto = oggetto;
@@ -60,11 +83,11 @@ public class Messaggio {
 		this.oggetto = oggetto;
 	}
 
-	public boolean isLetto() {
+	public Boolean getLetto() {
 		return letto;
 	}
 
-	public void setLetto(boolean letto) {
+	public void setLetto(Boolean letto) {
 		this.letto = letto;
 	}
 
@@ -82,6 +105,11 @@ public class Messaggio {
 
 	public void setRichiestaPermesso(RichiestaPermesso richiestaPermesso) {
 		this.richiestaPermesso = richiestaPermesso;
+	}
+
+	@Override
+	public String toString() {
+		return "Messaggio [id=" + id + ", testo=" + testo + ", oggetto=" + oggetto + ", letto=" + letto + "]";
 	}
 
 }

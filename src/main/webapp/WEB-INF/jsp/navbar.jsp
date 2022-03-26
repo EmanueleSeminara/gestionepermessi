@@ -15,6 +15,10 @@
 	border: none;
 }
 
+.badge-danger{
+	background-color: #dd3444;
+}
+
 </style>
 <header>
   <!-- Fixed navbar -->
@@ -65,14 +69,11 @@
           	</li>
 		   </sec:authorize>
 		   <sec:authorize access="hasRole('BO_USER')">
-		      <li class="nav-item dropdown">
-		        <a class="nav-link dropdown-toggle ${path == 'gestioneMessaggi'?'active':''}" href="#" id="dropdown04" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestione Messaggi</a>
-		        <div class="dropdown-menu" aria-labelledby="dropdown01">
-		          <a class="dropdown-item" href="${pageContext.request.contextPath}/utente/search">Ricerca Utenti</a>
-		          <a class="dropdown-item" href="${pageContext.request.contextPath}/utente/insert">Inserisci Utente</a>
-		        </div>
-		      </li>
+		    <li class="nav-item">
+            	<a class="nav-link ${path == 'gestioneMessaggi'?'active':''}" aria-current="page" href="${pageContext.request.contextPath}/messaggio/search">Gestione Messaggi <span class="badge badge-danger">${message_count}</span></a>
+          	</li>
 		   </sec:authorize>
+		   
         </ul>
       </div>
       
