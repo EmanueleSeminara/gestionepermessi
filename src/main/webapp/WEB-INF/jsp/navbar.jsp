@@ -57,9 +57,18 @@
            <sec:authorize access="hasRole('ADMIN')">
 		      <li class="nav-item dropdown">
 		        <a class="nav-link dropdown-toggle ${path == 'gestioneUtenze'?'active':''}" href="#" id="dropdown02" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestione Utenze</a>
-		        <div class="dropdown-menu" aria-labelledby="dropdown01">
+		        <div class="dropdown-menu" aria-labelledby="dropdown02">
 		          <a class="dropdown-item" href="${pageContext.request.contextPath}/utente/search">Ricerca Utenti</a>
 		          <a class="dropdown-item" href="${pageContext.request.contextPath}/utente/insert">Inserisci Utente</a>
+		        </div>
+		      </li>
+		   </sec:authorize>
+		   <sec:authorize access="hasRole('DIPENDENTE_USER')">
+		      <li class="nav-item dropdown">
+		        <a class="nav-link dropdown-toggle ${path == 'gestioneRichiestePermesso'?'active':''}" href="#" id="dropdown03" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestione Permessi</a>
+		        <div class="dropdown-menu" aria-labelledby="dropdown03">
+		          <a class="dropdown-item" href="${pageContext.request.contextPath}/richiestapermesso/searchpersonal">Ricerca Permessi</a>
+		          <a class="dropdown-item" href="${pageContext.request.contextPath}/richiestapermesso/insert">Inserisci Permessi</a>
 		        </div>
 		      </li>
 		   </sec:authorize>

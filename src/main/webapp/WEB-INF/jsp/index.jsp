@@ -115,6 +115,18 @@
 				    </div>
 				  </div>
 				  </sec:authorize>
+				  
+				  <sec:authorize access="hasRole('DIPENDENTE_USER')">
+				  <div class="col-sm-3 mx-auto">
+				    <div class="card border-primary text-center">
+				      <div class="card-body">
+				        <h5 class="card-title">Gestione Permessi</h5>
+				        <p class="card-text"><svg class="bi bi-search" width="40%" height="40%"><use xlink:href="#people"/></svg></p>
+				        <a href="/richiestapermesso/searchpersonal" class="stretched-link"></a>
+				      </div>
+				    </div>
+				  </div>
+				  </sec:authorize>
 		
 				  
 				</div>

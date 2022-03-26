@@ -29,9 +29,19 @@
 			        <h5>Lista Richieste Permesso</h5> 
 			    </div>
 			    <div class='card-body'>
-			    	<a href="${pageContext.request.contextPath}/richiestapermesso/search" class='btn btn-outline-secondary' >
+			    	<sec:authorize access="hasRole('DIPENDENTE_USER')">
+			    		<a class="btn btn-primary " href="${pageContext.request.contextPath}/richiestapermesso/insert">Add New</a>
+			    	</sec:authorize>
+			    	<sec:authorize access="hasRole('DIPENDENTE_USER')">
+			    		<a href="${pageContext.request.contextPath}/richiestapermesso/searchpersonal" class='btn btn-outline-secondary' >
 				            <i class='fa fa-chevron-left'></i> Torna alla Ricerca
-				        </a>
+				       	</a>
+				    </sec:authorize>
+				    <sec:authorize access="hasRole('BO_USER')">
+			    		<a href="${pageContext.request.contextPath}/richiestapermesso/search" class='btn btn-outline-secondary' >
+				            <i class='fa fa-chevron-left'></i> Torna alla Ricerca
+				       	</a>
+				    </sec:authorize>
 			    
 			        <div class='table-responsive'>
 			            <table class='table table-striped ' >

@@ -11,7 +11,7 @@ import it.prova.gestionepermessi.model.StatoUtente;
 import it.prova.gestionepermessi.model.Utente;
 
 public interface UtenteRepository extends PagingAndSortingRepository<Utente, Long>, JpaSpecificationExecutor<Utente> {
-	@EntityGraph(attributePaths = { "ruoli" })
+	@EntityGraph(attributePaths = { "ruoli", "dipendente" })
 	Optional<Utente> findByUsername(String username);
 
 	@Query("from Utente u left join fetch u.ruoli left join fetch u.dipendente where u.id = ?1")

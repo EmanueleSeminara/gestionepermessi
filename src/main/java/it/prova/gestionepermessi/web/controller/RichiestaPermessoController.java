@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import it.prova.gestionepermessi.dto.RichiestaPermessoDTO;
 import it.prova.gestionepermessi.model.RichiestaPermesso;
+import it.prova.gestionepermessi.repository.UtenteRepository;
 import it.prova.gestionepermessi.service.MessaggioService;
 import it.prova.gestionepermessi.service.RichiestaPermessoService;
 
@@ -30,6 +31,9 @@ public class RichiestaPermessoController {
 
 	@Autowired
 	private MessaggioService messaggioService;
+
+	@Autowired
+	private UtenteRepository utenteRepository;
 
 	@GetMapping
 	public ModelAndView listAllRichiestePermesso(Model model) {
@@ -64,6 +68,13 @@ public class RichiestaPermessoController {
 	public String listRichiestaPermesso(RichiestaPermessoDTO richiestaPermessoExample,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
 			@RequestParam(defaultValue = "id") String sortBy, Model model) {
+		Set<String> roles = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+				.map(r -> r.getAuthority()).collect(Collectors.toSet());
+
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		if (roles.contains("ROLE_DIPENDENTE_USER")) {
+			richiestaPermessoExample.setDipendente(utenteRepository.findByUsername(username).get().getDipendente());
+		}
 		List<RichiestaPermesso> richiestePermessi = richiestaPermessoService
 				.findByExample(richiestaPermessoExample.buildRichiestaPermessoModel(true), pageNo, pageSize, sortBy)
 				.getContent();
@@ -98,5 +109,12 @@ public class RichiestaPermessoController {
 		if (roles.contains("ROLE_BO_USER")) {
 			modelInput.addAttribute("message_count", messaggioService.numeroMessaggiDaLeggere());
 		}
+	}
+
+	@GetMapping("/searchpersonal")
+	public String searchMessaggioPersonal(Model model) {
+		System.out.println("SEI DENTRO!!!!!!");
+		model.addAttribute("path", "gestioneRichiestePermesso");
+		return "richiestapermesso/searchPersonal";
 	}
 }

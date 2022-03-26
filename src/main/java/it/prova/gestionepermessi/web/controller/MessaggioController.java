@@ -58,4 +58,5 @@ public class MessaggioController {
 		model.addAttribute("path", "gestioneMessaggi");
 		return "messaggio/show";
 	}
+
 }
