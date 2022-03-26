@@ -49,7 +49,7 @@ public class RichiestaPermessoController {
 			mv.addObject("path", "home");
 			mv.setViewName("home");
 		}
-		
+
 		return mv;
 	}
 
@@ -95,10 +95,8 @@ public class RichiestaPermessoController {
 	private void checkMessaggeIfBO(Model modelInput) {
 		Set<String> roles = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
 				.map(r -> r.getAuthority()).collect(Collectors.toSet());
-		for (String role : roles) {
-			if (role.equalsIgnoreCase("ROLE_BO_USER")) {
-				modelInput.addAttribute("message_count", messaggioService.numeroMessaggiDaLeggere());
-			}
+		if (roles.contains("ROLE_BO_USER")) {
+			modelInput.addAttribute("message_count", messaggioService.numeroMessaggiDaLeggere());
 		}
 	}
 }
