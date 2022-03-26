@@ -22,4 +22,6 @@ public interface MessaggioService {
 	public Page<Messaggio> findByExample(Messaggio example, Integer pageNo, Integer pageSize, String sortBy);
 
 	public int numeroMessaggiDaLeggere();
+
+	public Messaggio leggiMessaggio(Long idMessaggio);
 }

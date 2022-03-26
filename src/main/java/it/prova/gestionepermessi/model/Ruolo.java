@@ -1,5 +1,7 @@
 package it.prova.gestionepermessi.model;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -70,6 +72,23 @@ public class Ruolo {
 	@Override
 	public String toString() {
 		return "Ruolo [id=" + id + ", descrizione=" + descrizione + ", codice=" + codice + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(codice);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Ruolo other = (Ruolo) obj;
+		return Objects.equals(codice, other.codice);
 	}
 
 }

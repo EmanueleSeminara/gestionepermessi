@@ -93,4 +93,13 @@ public class MessaggioServiceImpl implements MessaggioService {
 		return repository.countByLetto(false);
 	}
 
+	@Override
+	public Messaggio leggiMessaggio(Long idMessaggio) {
+		Messaggio messaggioDaLeggere = repository.findByIdEager(idMessaggio).orElse(null);
+		messaggioDaLeggere.setLetto(true);
+		repository.save(messaggioDaLeggere);
+		return messaggioDaLeggere;
+
+	}
+
 }

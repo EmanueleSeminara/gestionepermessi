@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,5 +49,13 @@ public class MessaggioController {
 		model.addAttribute("messaggio_list_attribute", MessaggioDTO.createMessaggioDTOListFromModelList(messaggi));
 		model.addAttribute("path", "gestioneMessaggi");
 		return "messaggio/list";
+	}
+
+	@GetMapping("/show/{idMessaggio}")
+	public String showMessaggio(@PathVariable(required = true) Long idMessaggio, Model model) {
+		model.addAttribute("show_messaggio_attr",
+				MessaggioDTO.buildMessaggioDTOFromModel(messaggioService.leggiMessaggio(idMessaggio)));
+		model.addAttribute("path", "gestioneMessaggi");
+		return "messaggio/show";
 	}
 }

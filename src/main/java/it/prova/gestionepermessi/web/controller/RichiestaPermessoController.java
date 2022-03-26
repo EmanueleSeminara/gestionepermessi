@@ -34,12 +34,22 @@ public class RichiestaPermessoController {
 	@GetMapping
 	public ModelAndView listAllRichiestePermesso(Model model) {
 		ModelAndView mv = new ModelAndView();
-		List<RichiestaPermesso> richiestePermesso = richiestaPermessoService.listAllElements();
-		mv.addObject("richiestePermesso_list_attribute",
-				RichiestaPermessoDTO.createRichiestaPermessoDTOListFromModelList(richiestePermesso));
-		mv.addObject("path", "ricercaPermessi");
-		checkMessaggeIfBO(model);
-		mv.setViewName("richiestapermesso/list");
+		Set<String> roles = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+				.map(r -> r.getAuthority()).collect(Collectors.toSet());
+		if (roles.contains("ROLE_BO_USER")) {
+			List<RichiestaPermesso> richiestePermesso = richiestaPermessoService.listAllElements();
+			mv.addObject("richiestePermesso_list_attribute",
+					RichiestaPermessoDTO.createRichiestaPermessoDTOListFromModelList(richiestePermesso));
+			mv.addObject("path", "ricercaPermessi");
+			checkMessaggeIfBO(model);
+			mv.setViewName("richiestapermesso/list");
+		} else if (roles.contains("ROLE_DIPENDENTE_USER")) {
+
+		} else {
+			mv.addObject("path", "home");
+			mv.setViewName("home");
+		}
+		
 		return mv;
 	}
 
