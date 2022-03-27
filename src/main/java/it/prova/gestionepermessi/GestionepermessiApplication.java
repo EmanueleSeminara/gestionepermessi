@@ -69,32 +69,7 @@ public class GestionepermessiApplication implements CommandLineRunner {
 			utenteServiceInstance.changeUserAbilitation(admin.getUtente().getId());
 		}
 
-//		if (utenteServiceInstance.findByUsername("user") == null) {
-//			Utente classicUser = new Utente("user", "user", "Antonio", "Verdi", new Date());
-//			classicUser.getRuoli()
-//					.add(ruoloServiceInstance.cercaPerDescrizioneECodice("Classic User", "ROLE_CLASSIC_USER"));
-//			utenteServiceInstance.inserisciNuovo(classicUser);
-//			// l'inserimento avviene come created ma io voglio attivarlo
-//			utenteServiceInstance.changeUserAbilitation(classicUser.getId());
-//		}
-//
-//		if (utenteServiceInstance.findByUsername("user1") == null) {
-//			Utente classicUser1 = new Utente("user1", "user1", "Antonioo", "Verdii", new Date());
-//			classicUser1.getRuoli()
-//					.add(ruoloServiceInstance.cercaPerDescrizioneECodice("Classic User", "ROLE_CLASSIC_USER"));
-//			utenteServiceInstance.inserisciNuovo(classicUser1);
-//			// l'inserimento avviene come created ma io voglio attivarlo
-//			utenteServiceInstance.changeUserAbilitation(classicUser1.getId());
-//		}
-//
-//		if (utenteServiceInstance.findByUsername("user2") == null) {
-//			Utente classicUser2 = new Utente("user2", "user2", "Antoniooo", "Verdiii", new Date());
-//			classicUser2.getRuoli()
-//					.add(ruoloServiceInstance.cercaPerDescrizioneECodice("Classic User", "ROLE_CLASSIC_USER"));
-//			utenteServiceInstance.inserisciNuovo(classicUser2);
-//			// l'inserimento avviene come created ma io voglio attivarlo
-//			utenteServiceInstance.changeUserAbilitation(classicUser2.getId());
-//		}
+
 
 	}
 

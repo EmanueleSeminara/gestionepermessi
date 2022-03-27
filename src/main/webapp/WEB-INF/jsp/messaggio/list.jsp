@@ -49,9 +49,6 @@
 										<td>${messaggioItem.letto ? 'Letto':'Da leggere'}</td>
 										<td>
 											<a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/messaggio/show/${messaggioItem.id }">Visualizza</a>
-											<sec:authorize access="hasRole('BO_USER')">
-												<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath}/messaggio/edit/${messaggioItem.id }">Edit</a>
-											</sec:authorize>
 										</td>
 									</tr>
 								</c:forEach>

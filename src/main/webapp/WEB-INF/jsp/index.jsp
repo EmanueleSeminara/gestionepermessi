@@ -38,6 +38,20 @@
 			  <symbol id="people" viewBox="0 0 16 16">
 			  <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
 			  </symbol>
+			  
+			  <symbol id="envelope" viewBox="0 0 16 16">
+			  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+			  </symbol>
+			  
+			  <symbol id="calendar3" viewBox="0 0 16 16">
+			  <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
+  			  <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+			  </symbol>
+			  
+			  <symbol id="building" viewBox="0 0 16 16">
+			  <path fill-rule="evenodd" d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022zM6 8.694 1 10.36V15h5V8.694zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5V15z"/>
+			  <path d="M2 11h1v1H2v-1zm2 0h1v1H4v-1zm-2 2h1v1H2v-1zm2 0h1v1H4v-1zm4-4h1v1H8V9zm2 0h1v1h-1V9zm-2 2h1v1H8v-1zm2 0h1v1h-1v-1zm2-2h1v1h-1V9zm0 2h1v1h-1v-1zM8 7h1v1H8V7zm2 0h1v1h-1V7zm2 0h1v1h-1V7zM8 5h1v1H8V5zm2 0h1v1h-1V5zm2 0h1v1h-1V5zm0-2h1v1h-1V3z"/>
+			  </symbol>
 			</svg>
 			<!-- ############## end ###################  -->
 	   
@@ -73,7 +87,7 @@
 				    <div class="card border-primary text-center">
 				      <div class="card-body">
 				        <h5 class="card-title">Gestione Dipendenti</h5>
-				        <p class="card-text"><svg class="bi bi-search" width="40%" height="40%"><use xlink:href="#search"/></svg></p>
+				        <p class="card-text"><svg class="bi bi-search" width="40%" height="40%"><use xlink:href="#building"/></svg></p>
 				        <a href="/dipendente/search" class="stretched-link"></a>
 				      </div>
 				    </div>
@@ -97,7 +111,7 @@
 				    <div class="card border-primary text-center">
 				      <div class="card-body">
 				        <h5 class="card-title">Gestione Messaggi</h5>
-				        <p class="card-text"><svg class="bi bi-search" width="40%" height="40%"><use xlink:href="#search"/></svg></p>
+				        <p class="card-text"><svg class="bi bi-search" width="40%" height="40%"><use xlink:href="#envelope"/></svg></p>
 				        <a href="/messaggio/search" class="stretched-link"></a>
 				      </div>
 				    </div>
@@ -121,7 +135,7 @@
 				    <div class="card border-primary text-center">
 				      <div class="card-body">
 				        <h5 class="card-title">Gestione Permessi</h5>
-				        <p class="card-text"><svg class="bi bi-search" width="40%" height="40%"><use xlink:href="#people"/></svg></p>
+				        <p class="card-text"><svg class="bi bi-search" width="40%" height="40%"><use xlink:href="#calendar3"/></svg></p>
 				        <a href="/richiestapermesso/searchpersonal" class="stretched-link"></a>
 				      </div>
 				    </div>
