@@ -162,4 +162,11 @@ public class RichiestaPermesso {
 		this.dipendente = dipendente;
 	}
 
+	@Override
+	public String toString() {
+		return "RichiestaPermesso [id=" + id + ", tipoPermesso=" + tipoPermesso + ", dataInizio=" + dataInizio
+				+ ", dataFine=" + dataFine + ", approvato=" + approvato + ", codiceCertificato=" + codiceCertificato
+				+ ", note=" + note + "]";
+	}
+
 }

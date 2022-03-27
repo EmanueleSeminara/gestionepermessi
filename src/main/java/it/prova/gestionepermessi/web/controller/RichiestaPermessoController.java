@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.prova.gestionepermessi.dto.RichiestaPermessoDTO;
+import it.prova.gestionepermessi.exceptions.RichiestaPermessoConDataInizioSuperataException;
 import it.prova.gestionepermessi.model.RichiestaPermesso;
 import it.prova.gestionepermessi.repository.UtenteRepository;
 import it.prova.gestionepermessi.service.MessaggioService;
@@ -180,12 +181,22 @@ public class RichiestaPermessoController {
 			redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		} catch (NullPointerException ex) {
 			redirectAttrs.addFlashAttribute("errorMessage", "Impossibile modificare il permesso");
-		}
-		catch(IllegalArgumentException ex) {
+		} catch (IllegalArgumentException ex) {
 			redirectAttrs.addFlashAttribute("errorMessage", "Impossibile modificare il permesso");
 		}
 
-		
+		return "redirect:/richiestapermesso";
+	}
+
+	@PostMapping("/delete")
+	public String delete(@RequestParam(name = "idRichiestaPermessoForDelete", required = true) Long idRichiestaPermesso,
+			RedirectAttributes redirectAttrs) {
+		try {
+			richiestaPermessoService.rimuovi(idRichiestaPermesso);
+			redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
+		} catch (RichiestaPermessoConDataInizioSuperataException ex) {
+			redirectAttrs.addFlashAttribute("errorMessage", "Impossibile eliminare il permesso");
+		}
 		return "redirect:/richiestapermesso";
 	}
 }

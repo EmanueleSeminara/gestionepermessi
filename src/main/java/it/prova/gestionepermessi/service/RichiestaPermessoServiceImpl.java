@@ -89,8 +89,17 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 
 	@Override
 	@Transactional
-	public void rimuovi(RichiestaPermesso richiestaPermessoInstance) {
-		repository.delete(richiestaPermessoInstance);
+	public void rimuovi(Long idRichiestaPermesso) {
+		System.out.println("ID RICHIESTA: " + idRichiestaPermesso);
+		RichiestaPermesso richiestaPermessoReloaded = repository.findByIdEager(idRichiestaPermesso).orElse(null);
+		System.out.println(richiestaPermessoReloaded);
+		if (richiestaPermessoReloaded == null || richiestaPermessoReloaded.getId() == null
+				|| richiestaPermessoReloaded.isApprovato() || richiestaPermessoReloaded.getDataInizio() == null
+				|| richiestaPermessoReloaded.getDataInizio().before(new Date())) {
+			throw new RichiestaPermessoConDataInizioSuperataException("Impossibile rimuovere la richiesta");
+		}
+		messaggioRepository.delete(messaggioRepository.findByRichiestaPermesso_id(richiestaPermessoReloaded.getId()));
+		repository.delete(richiestaPermessoReloaded);
 	}
 
 	@Override

@@ -63,6 +63,9 @@
 												<jsp:useBean id="now" class="java.util.Date"/>
 												<a class="btn  btn-sm btn-outline-primary ml-2 mr-2 ${richiestaPermessoItem.approvato?'disabled':''} ${ richiestaPermessoItem.dataInizio lt now?'disabled':''}"  href="${pageContext.request.contextPath}/richiestapermesso/edit/${richiestaPermessoItem.id }">Edit</a>
 											</sec:authorize>
+											<sec:authorize access="hasRole('DIPENDENTE_USER')">
+												<a id="changeStatoLink_#_${richiestaPermessoItem.id }" class="btn btn-outline-danger ${richiestaPermessoItem.approvato?'disabled':''} ${ richiestaPermessoItem.dataInizio lt now?'disabled':''} btn-sm link-for-modal" data-bs-toggle="modal" data-bs-target="#confirmOperationModal"  >Elimina</a>
+											</sec:authorize>
 										</td>
 									</tr>
 								</c:forEach>
@@ -93,9 +96,9 @@
 	            <div class="modal-body">
 	                Continuare con l'operazione?
 	            </div>
-	            <form method="post" action="${pageContext.request.contextPath}/utente/cambiaStato" >
+	            <form method="post" action="${pageContext.request.contextPath}/richiestapermesso/delete" >
 		            <div class="modal-footer">
-		            	<input type="hidden" name="idUtenteForChangingStato" id="idUtenteForChangingStato">
+		            	<input type="hidden" name="idRichiestaPermessoForDelete" id="idRichiestaPermessoForDelete">
 		                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
 		                <input type="submit" value="Continua"  class="btn btn-primary">
 		            </div>
@@ -134,7 +137,7 @@
 			<!-- mi prendo il numero che poi sarà l'id. Il 18 è perché 'changeStatoLink_#_' è appunto lungo 18  -->
 			var callerId = $(this).attr('id').substring(18);
 			<!-- imposto nell'hidden del modal l'id da postare alla servlet -->
-			$('#idUtenteForChangingStato').val(callerId);
+			$('#idRichiestaPermessoForDelete').val(callerId);
 			$('#idUtenteForResetPassword').val(callerId);
 		});
 	</script>

@@ -19,7 +19,7 @@ public interface RichiestaPermessoService {
 
 	public void inserisciNuovo(RichiestaPermesso richiestaPermessoInstance);
 
-	public void rimuovi(RichiestaPermesso richiestaPermessoInstance);
+	public void rimuovi(Long idRichiestaPermesso);
 
 	public Page<RichiestaPermesso> findByExample(RichiestaPermesso example, Integer pageNo, Integer pageSize,
 			String sortBy);
