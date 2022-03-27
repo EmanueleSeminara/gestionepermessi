@@ -99,7 +99,7 @@ public class UtenteController {
 		return "redirect:/utente";
 	}
 
-	@PostMapping("/cambiaStato")
+	@PostMapping("/cambiastato")
 	public String cambiaStato(@RequestParam(name = "idUtenteForChangingStato", required = true) Long idUtente) {
 		utenteService.changeUserAbilitation(idUtente);
 		return "redirect:/utente";

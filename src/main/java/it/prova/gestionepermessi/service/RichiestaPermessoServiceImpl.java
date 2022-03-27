@@ -94,9 +94,7 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 	@Override
 	@Transactional
 	public void rimuovi(Long idRichiestaPermesso) {
-		System.out.println("ID RICHIESTA: " + idRichiestaPermesso);
 		RichiestaPermesso richiestaPermessoReloaded = repository.findByIdEager(idRichiestaPermesso).orElse(null);
-		System.out.println(richiestaPermessoReloaded);
 		if (richiestaPermessoReloaded == null || richiestaPermessoReloaded.getId() == null
 				|| richiestaPermessoReloaded.isApprovato() || richiestaPermessoReloaded.getDataInizio() == null
 				|| richiestaPermessoReloaded.getDataInizio().before(new Date())) {
@@ -181,16 +179,12 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 			String usernameInput) {
 		Utente utenteRichiesta = utenteService.findByUsername(usernameInput);
 		if (utenteRichiesta == null) {
-			System.out.println("PROBLEMA");
+			throw new IllegalArgumentException("Richiesta senza utente");
 		}
 		attachmentRepository.save(richiestaPermessoInstance.getAttachment());
 		richiestaPermessoInstance.setDipendente(utenteRichiesta.getDipendente());
 		repository.save(richiestaPermessoInstance);
 
-		System.out.println(utenteRichiesta);
-		System.out.println(utenteRichiesta.getDipendente());
-		System.out.println(utenteRichiesta.getDipendente().getId() == null);
-		System.out.println(richiestaPermessoInstance.getId() == null);
 		if (utenteRichiesta.getDipendente().getId() == null || richiestaPermessoInstance.getId() == null) {
 			throw new IllegalArgumentException("Errore");
 		}

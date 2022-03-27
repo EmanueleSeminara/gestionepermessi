@@ -82,7 +82,7 @@
 	            <div class="modal-body">
 	                Continuare con l'operazione?
 	            </div>
-	            <form method="post" action="${pageContext.request.contextPath}/dipendente/cambiaStato" >
+	            <form method="post" action="${pageContext.request.contextPath}/dipendente/cambiastato" >
 		            <div class="modal-footer">
 		            	<input type="hidden" name="idUtenteForChangingStato" id="idUtenteForChangingStato">
 		                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>

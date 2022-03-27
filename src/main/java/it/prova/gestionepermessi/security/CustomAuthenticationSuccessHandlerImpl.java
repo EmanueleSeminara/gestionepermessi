@@ -39,7 +39,6 @@ public class CustomAuthenticationSuccessHandlerImpl implements AuthenticationSuc
 		utenteParziale.setNome(utenteFromDb.getDipendente().getNome());
 		utenteParziale.setCognome(utenteFromDb.getDipendente().getCognome());
 		request.getSession().setAttribute("userInfo", utenteParziale);
-		System.out.println(messaggioRepository.countByLetto(false));
 		if (utenteFromDb.isBackOffice()) {
 			request.getSession().setAttribute("message_count", messaggioRepository.countByLetto(false));
 		}

@@ -42,8 +42,6 @@ public class MessaggioController {
 	public String listMessaggio(MessaggioDTO messaggioExample, @RequestParam(defaultValue = "0") Integer pageNo,
 			@RequestParam(defaultValue = "10") Integer pageSize, @RequestParam(defaultValue = "id") String sortBy,
 			Model model) {
-		System.out.println("SEI DENTRO");
-		System.out.println("RISULTATO: " + messaggioExample.buildMessaggioModel(true));
 		List<Messaggio> messaggi = messaggioService
 				.findByExample(messaggioExample.buildMessaggioModel(true), pageNo, pageSize, sortBy).getContent();
 		model.addAttribute("messaggio_list_attribute", MessaggioDTO.createMessaggioDTOListFromModelList(messaggi));

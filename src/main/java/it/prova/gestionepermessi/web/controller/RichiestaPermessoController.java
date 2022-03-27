@@ -53,7 +53,6 @@ public class RichiestaPermessoController {
 
 	@GetMapping
 	public ModelAndView listAllRichiestePermesso(Model model) {
-		System.out.println("SEI NEL PATH BASE");
 		ModelAndView mv = new ModelAndView();
 		Set<String> roles = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
 				.map(r -> r.getAuthority()).collect(Collectors.toSet());
@@ -67,13 +66,7 @@ public class RichiestaPermessoController {
 		} else if (roles.contains("ROLE_DIPENDENTE_USER")) {
 			List<RichiestaPermesso> richiestePermesso = richiestaPermessoService
 					.listAllElementsByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-			for (RichiestaPermesso r : richiestePermesso) {
-				if (r.getAttachment() == null) {
-					System.out.println("ATTACHMENT NULL");
-				} else {
-					System.out.println(r);
-				}
-			}
+
 			mv.addObject("richiestePermesso_list_attribute",
 					RichiestaPermessoDTO.createRichiestaPermessoDTOListFromModelList(richiestePermesso));
 			mv.addObject("path", "gestioneRichiestePermesso");
@@ -116,7 +109,6 @@ public class RichiestaPermessoController {
 
 	@GetMapping("/show/{idRichiestaPermesso}")
 	public String showRichiestaPermesso(@PathVariable(required = true) Long idRichiestaPermesso, Model model) {
-		System.out.println("SEI DENTRO");
 		model.addAttribute("show_richiestaPermesso_attr", RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(
 				richiestaPermessoService.caricaSingoloElementoEager(idRichiestaPermesso)));
 		checkMessageIfBO(model);
@@ -125,7 +117,7 @@ public class RichiestaPermessoController {
 		return "richiestapermesso/show";
 	}
 
-	@PostMapping("/cambiaStato")
+	@PostMapping("/cambiastato")
 	public String cambiaStato(
 			@RequestParam(name = "idRichiestaPermessoForChangingStato", required = true) Long idRichiestaPermesso) {
 		richiestaPermessoService.changeRichiestaPermessoStato(idRichiestaPermesso);
@@ -142,7 +134,6 @@ public class RichiestaPermessoController {
 
 	@GetMapping("/searchpersonal")
 	public String searchMessaggioPersonal(Model model) {
-		System.out.println("SEI DENTRO!!!!!!");
 		model.addAttribute("path", "gestioneRichiestePermesso");
 		return "richiestapermesso/searchPersonal";
 	}
@@ -162,25 +153,14 @@ public class RichiestaPermessoController {
 			@Validated @ModelAttribute("insert_richiestaPermesso_attr") RichiestaPermessoDTO richiestaPermessoDTO,
 			@RequestParam("file") MultipartFile file, BindingResult result, Model model,
 			RedirectAttributes redirectAttrs) {
-		System.out.println("ATTACHMENT: " + file);
-		System.out.println("CI SEI FRATELLO!!!!");
 		if (result.hasErrors()) {
-			System.out.println("ERRORI DI VALIDAZIONE:" + result);
 			return "richiestapermesso/insert";
 		}
 		if (file == null || file.isEmpty()) {
 			model.addAttribute("errorMessage", "Inserire dei valori");
 			return "richiestapermesso/insert";
 		}
-		System.out.println("CONTENUTO: " + file.getContentType());
-		System.out.println(file.getOriginalFilename());
-		try {
-			System.out.println(file.getBytes());
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		System.out.println(richiestaPermessoDTO.getAttachment() == null);
+
 		richiestaPermessoDTO.setAttachment(new Attachment());
 		try {
 			richiestaPermessoDTO.getAttachment().setContentType(file.getContentType());
