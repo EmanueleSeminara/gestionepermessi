@@ -1,5 +1,6 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!doctype html>
 <html lang="it" class="h-100">
 <head>
@@ -49,7 +50,7 @@
 			    	</dl>
 			    	<dl class="row">
 						<dt class="col-sm-3 text-right">Attachment:</dt>
-						<dd class="col-sm-9">${show_richiestaPermesso_attr.attachment}</dd>
+						<dd class="col-sm-9"><a href="${pageContext.request.contextPath}/richiestapermesso/showAttachment/${show_richiestaPermesso_attr.attachment.id}">${show_richiestaPermesso_attr.attachment.nomeFile}</a></dd>
 			    	</dl>
 			    	
 			    	<!-- info Regista -->
@@ -90,8 +91,10 @@
 			        <a href="${pageContext.request.contextPath }/richiestapermesso/" class='btn btn-outline-secondary' style='width:80px'>
 			            <i class='fa fa-chevron-left'></i> Back
 			        </a>
-			        <jsp:useBean id="now" class="java.util.Date"/>
-			        <a id="changeStatoLink_#_${show_richiestaPermesso_attr.id }" class="btn btn-outline-${show_richiestaPermesso_attr.approvato?'danger':'success'} ${ show_richiestaPermesso_attr.dataInizio lt now?'d-none':''} link-for-modal" data-bs-toggle="modal" data-bs-target="#confirmOperationModal"  >${show_richiestaPermesso_attr.approvato?'Disapprova':'Approva'}</a>
+			        <sec:authorize access="hasRole('BO_USER')">
+			      	  <jsp:useBean id="now" class="java.util.Date"/>
+			    	    <a id="changeStatoLink_#_${show_richiestaPermesso_attr.id }" class="btn btn-outline-${show_richiestaPermesso_attr.approvato?'danger':'success'} ${ show_richiestaPermesso_attr.dataInizio lt now?'d-none':''} link-for-modal" data-bs-toggle="modal" data-bs-target="#confirmOperationModal"  >${show_richiestaPermesso_attr.approvato?'Disapprova':'Approva'}</a>
+			  		</sec:authorize>
 			    </div>
 			<!-- end card -->
 			</div>	

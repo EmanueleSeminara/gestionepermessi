@@ -14,6 +14,6 @@ public interface RichiestaPermessoRepository
 	@Query("from RichiestaPermesso r left join fetch r.attachment left join fetch r.dipendente where r.id = ?1")
 	public Optional<RichiestaPermesso> findByIdEager(Long idMessaggio);
 
-	@Query("from RichiestaPermesso r left join fetch r.dipendente d left join fetch d.utente u where u.username = ?1")
+	@Query("from RichiestaPermesso r left join fetch r.attachment a left join fetch r.dipendente d left join fetch d.utente u where u.username = ?1")
 	public List<RichiestaPermesso> findByUsername(String usernameInput);
 }

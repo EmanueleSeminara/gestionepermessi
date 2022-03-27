@@ -21,6 +21,7 @@ import it.prova.gestionepermessi.exceptions.RichiestaPermessoConDataInizioSupera
 import it.prova.gestionepermessi.model.Messaggio;
 import it.prova.gestionepermessi.model.RichiestaPermesso;
 import it.prova.gestionepermessi.model.Utente;
+import it.prova.gestionepermessi.repository.AttachmentRepository;
 import it.prova.gestionepermessi.repository.MessaggioRepository;
 import it.prova.gestionepermessi.repository.RichiestaPermessoRepository;
 
@@ -38,6 +39,9 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 
 	@Autowired
 	private UtenteService utenteService;
+
+	@Autowired
+	private AttachmentRepository attachmentRepository;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -131,7 +135,7 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 			if (example.getDipendente() != null && example.getDipendente().getId() != null)
 				predicates.add(cb.equal(root.get("dipendente"), example.getDipendente().getId()));
 
-			root.fetch("dipendente", JoinType.LEFT);
+//			root.fetch("dipendente", JoinType.LEFT);
 
 			return cb.and(predicates.toArray(new Predicate[predicates.size()]));
 		};
@@ -179,7 +183,7 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 		if (utenteRichiesta == null) {
 			System.out.println("PROBLEMA");
 		}
-
+		attachmentRepository.save(richiestaPermessoInstance.getAttachment());
 		richiestaPermessoInstance.setDipendente(utenteRichiesta.getDipendente());
 		repository.save(richiestaPermessoInstance);
 
@@ -190,7 +194,6 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 		if (utenteRichiesta.getDipendente().getId() == null || richiestaPermessoInstance.getId() == null) {
 			throw new IllegalArgumentException("Errore");
 		}
-		repository.save(richiestaPermessoInstance);
 		Messaggio nuovoMessaggio = new Messaggio();
 		nuovoMessaggio.setOggetto("Richiesta permesso da parte di " + utenteRichiesta.getDipendente().getNome() + " "
 				+ utenteRichiesta.getDipendente().getCognome());

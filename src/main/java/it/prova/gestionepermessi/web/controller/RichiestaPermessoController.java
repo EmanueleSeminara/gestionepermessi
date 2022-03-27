@@ -1,5 +1,6 @@
 package it.prova.gestionepermessi.web.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -7,6 +8,8 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,13 +22,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.prova.gestionepermessi.dto.RichiestaPermessoDTO;
 import it.prova.gestionepermessi.exceptions.RichiestaPermessoConDataInizioSuperataException;
+import it.prova.gestionepermessi.model.Attachment;
 import it.prova.gestionepermessi.model.RichiestaPermesso;
 import it.prova.gestionepermessi.repository.UtenteRepository;
+import it.prova.gestionepermessi.service.AttachmentService;
 import it.prova.gestionepermessi.service.MessaggioService;
 import it.prova.gestionepermessi.service.RichiestaPermessoService;
 
@@ -41,6 +47,9 @@ public class RichiestaPermessoController {
 
 	@Autowired
 	private UtenteRepository utenteRepository;
+
+	@Autowired
+	private AttachmentService attachmentService;
 
 	@GetMapping
 	public ModelAndView listAllRichiestePermesso(Model model) {
@@ -58,6 +67,13 @@ public class RichiestaPermessoController {
 		} else if (roles.contains("ROLE_DIPENDENTE_USER")) {
 			List<RichiestaPermesso> richiestePermesso = richiestaPermessoService
 					.listAllElementsByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+			for (RichiestaPermesso r : richiestePermesso) {
+				if (r.getAttachment() == null) {
+					System.out.println("ATTACHMENT NULL");
+				} else {
+					System.out.println(r);
+				}
+			}
 			mv.addObject("richiestePermesso_list_attribute",
 					RichiestaPermessoDTO.createRichiestaPermessoDTOListFromModelList(richiestePermesso));
 			mv.addObject("path", "gestioneRichiestePermesso");
@@ -144,11 +160,34 @@ public class RichiestaPermessoController {
 	@PostMapping("/save")
 	public String save(
 			@Validated @ModelAttribute("insert_richiestaPermesso_attr") RichiestaPermessoDTO richiestaPermessoDTO,
-			BindingResult result, Model model, RedirectAttributes redirectAttrs) {
-		System.out.println(richiestaPermessoDTO);
+			@RequestParam("file") MultipartFile file, BindingResult result, Model model,
+			RedirectAttributes redirectAttrs) {
+		System.out.println("ATTACHMENT: " + file);
 		System.out.println("CI SEI FRATELLO!!!!");
 		if (result.hasErrors()) {
+			System.out.println("ERRORI DI VALIDAZIONE:" + result);
 			return "richiestapermesso/insert";
+		}
+		if (file == null || file.isEmpty()) {
+			model.addAttribute("errorMessage", "Inserire dei valori");
+			return "richiestapermesso/insert";
+		}
+		System.out.println("CONTENUTO: " + file.getContentType());
+		System.out.println(file.getOriginalFilename());
+		try {
+			System.out.println(file.getBytes());
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		System.out.println(richiestaPermessoDTO.getAttachment() == null);
+		richiestaPermessoDTO.setAttachment(new Attachment());
+		try {
+			richiestaPermessoDTO.getAttachment().setContentType(file.getContentType());
+			richiestaPermessoDTO.getAttachment().setNomeFile(file.getOriginalFilename());
+			richiestaPermessoDTO.getAttachment().setPayload(file.getBytes());
+		} catch (IOException e) {
+			throw new RuntimeException("Problema nell'upload file", e);
 		}
 		richiestaPermessoService.inserisciNuovaRichiestaPermessoECreaMessaggio(
 				richiestaPermessoDTO.buildRichiestaPermessoModel(true),
@@ -198,5 +237,16 @@ public class RichiestaPermessoController {
 			redirectAttrs.addFlashAttribute("errorMessage", "Impossibile eliminare il permesso");
 		}
 		return "redirect:/richiestapermesso";
+	}
+
+	@GetMapping("/showAttachment/{idAttachment}")
+	public ResponseEntity<byte[]> showAttachment(@PathVariable(required = true) Long idAttachment) {
+
+		Attachment file = attachmentService.caricaSingoloElemento(idAttachment);
+
+		return ResponseEntity.ok()
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getNomeFile() + "\"")
+				.body(file.getPayload());
+
 	}
 }

@@ -51,7 +51,7 @@
 							<h6 class="card-title">I campi con <span class="text-danger">*</span> sono obbligatori</h6>
 		
 		
-							<form:form modelAttribute="insert_richiestaPermesso_attr" method="post" action="save" novalidate="novalidate" class="row g-3">
+							<form:form enctype="multipart/form-data" modelAttribute="insert_richiestaPermesso_attr" method="post" action="save" novalidate="novalidate" class="row g-3">
 								
 								<div class="col-md-2">
 									<label for="tipoPermesso" class="form-label">Tipo Permesso </label>
@@ -72,12 +72,9 @@
 									</spring:bind>
 									<form:errors  path="codiceCertificato" cssClass="error_field" />
 								</div>
-								<div id="certificatoAllegato" class="col-md-6 d-none">
-									<label for="attachment" class="form-label">Certificato Allegato</label>
-									<spring:bind path="attachment">
-										<input type="file" name="codFis" id="codFis" class="form-control ${status.error ? 'is-invalid' : ''}" placeholder="Inserire il certificato allegato" value="${insert_richiestaPermesso_attr.attachment }" required>
-									</spring:bind>
-									<form:errors  path="attachment" cssClass="error_field" />
+								<div id="attachment" class="col-md-6 datiMalattia  d-none">
+									  <label for="allegato" class="form-label">Allegato <span class="text-danger">*</span></label>
+									  <input class="form-control" type="file" id="allegato" name="file" required>
 								</div>
 								
 								<fmt:formatDate pattern='yyyy-MM-dd' var="parsedDate" type='date' value='${insert_richiestaPermesso_attr.dataInizio}' />
@@ -133,11 +130,11 @@
 									$('#tipoPermesso').change(function(){
 										  if($(this).val() == 'MALATTIA'){
 										    $("#codiceCertificato").removeClass('d-none');
-										    $("#certificatoAllegato").removeClass('d-none');
+										    $("#attachment").removeClass('d-none');
 										  }
 										  else{
 											  $("#codiceCertificato").addClass('d-none');
-											  $("#certificatoAllegato").addClass('d-none');
+											  $("#attachment").addClass('d-none');
 										  }
 									});
 									
