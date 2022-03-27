@@ -60,7 +60,25 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 	@Override
 	@Transactional
 	public void aggiorna(RichiestaPermesso richiestaPermessoInstance) {
-		repository.save(richiestaPermessoInstance);
+		if (richiestaPermessoInstance == null || richiestaPermessoInstance.getId() == null) {
+			throw new NullPointerException("La richiesta non è valida");
+		}
+		RichiestaPermesso richiestaPermessoReloaded = repository.findById(richiestaPermessoInstance.getId())
+				.orElse(null);
+		if (richiestaPermessoReloaded == null || richiestaPermessoReloaded.getId() == null
+				|| richiestaPermessoReloaded.isApprovato()
+				|| richiestaPermessoReloaded.getDataInizio().before(new Date())) {
+			throw new IllegalArgumentException("La richiesta non può essere aggiornata");
+		}
+
+		richiestaPermessoReloaded.setAttachment(richiestaPermessoInstance.getAttachment());
+		richiestaPermessoReloaded.setCodiceCertificato(richiestaPermessoInstance.getCodiceCertificato());
+		richiestaPermessoReloaded.setDataFine(richiestaPermessoInstance.getDataFine());
+		richiestaPermessoReloaded.setDataInizio(richiestaPermessoInstance.getDataInizio());
+		richiestaPermessoReloaded.setNote(richiestaPermessoInstance.getNote());
+		richiestaPermessoReloaded.setTipoPermesso(richiestaPermessoInstance.getTipoPermesso());
+
+//		repository.save(richiestaPermessoInstance);
 	}
 
 	@Override

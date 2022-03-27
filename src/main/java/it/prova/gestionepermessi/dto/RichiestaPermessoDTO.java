@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotNull;
+
 import it.prova.gestionepermessi.model.Attachment;
 import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.model.RichiestaPermesso;
@@ -13,8 +15,10 @@ public class RichiestaPermessoDTO {
 
 	private Long id;
 
+	@NotNull(message = "{tipoPermesso.notnull}")
 	private TipoPermesso tipoPermesso;
 
+	@NotNull(message = "{dataInizio.notnull}")
 	private Date dataInizio;
 
 	private Date dataFine;
@@ -158,4 +162,12 @@ public class RichiestaPermessoDTO {
 
 		return result;
 	}
+
+	@Override
+	public String toString() {
+		return "RichiestaPermessoDTO [id=" + id + ", tipoPermesso=" + tipoPermesso + ", dataInizio=" + dataInizio
+				+ ", dataFine=" + dataFine + ", approvato=" + approvato + ", codiceCertificato=" + codiceCertificato
+				+ ", note=" + note + "]";
+	}
+
 }

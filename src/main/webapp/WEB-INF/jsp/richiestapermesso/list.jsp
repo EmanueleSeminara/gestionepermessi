@@ -60,7 +60,8 @@
 										<td>
 											<a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/richiestapermesso/show/${richiestaPermessoItem.id }">Visualizza</a>
 											<sec:authorize access="hasRole('DIPENDENTE_USER')">
-												<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath}/richiestapermesso/edit/${richiestaPermessoItem.id }">Edit</a>
+												<jsp:useBean id="now" class="java.util.Date"/>
+												<a class="btn  btn-sm btn-outline-primary ml-2 mr-2 ${richiestaPermessoItem.approvato?'disabled':''} ${ richiestaPermessoItem.dataInizio lt now?'disabled':''}"  href="${pageContext.request.contextPath}/richiestapermesso/edit/${richiestaPermessoItem.id }">Edit</a>
 											</sec:authorize>
 										</td>
 									</tr>

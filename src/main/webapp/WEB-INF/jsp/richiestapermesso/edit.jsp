@@ -17,7 +17,7 @@
 		    }
 		</style>
 	   
-	   <title>Inserisci Nuova Richiesta Permesso</title>
+	   <title>Modifica Permesso</title>
 	 </head>
 	   <body class="d-flex flex-column h-100">
 	   
@@ -30,7 +30,7 @@
 			  <div class="container">
 			  
 			  		<%-- se l'attributo in request ha errori --%>
-					<spring:hasBindErrors  name="insert_richiestaPermesso_attr">
+					<spring:hasBindErrors  name="edit_richiestaPermesso_attr">
 						<%-- alert errori --%>
 						<div class="alert alert-danger " role="alert">
 							Attenzione!! Sono presenti errori di validazione
@@ -44,43 +44,43 @@
 			  
 			  <div class='card'>
 				    <div class='card-header'>
-				        <h5>Inserisci nuova Richiesta Permesso</h5> 
+				        <h5>Modifica Permesso</h5> 
 				    </div>
 				    <div class='card-body'>
 		
 							<h6 class="card-title">I campi con <span class="text-danger">*</span> sono obbligatori</h6>
 		
 		
-							<form:form modelAttribute="insert_richiestaPermesso_attr" method="post" action="save" novalidate="novalidate" class="row g-3">
-								
+							<form:form modelAttribute="edit_richiestaPermesso_attr" method="post" action="${pageContext.request.contextPath}/richiestapermesso/update" novalidate="novalidate" class="row g-3">
+								<input type="hidden" name="id" value="${edit_richiestaPermesso_attr.id }">
 								<div class="col-md-2">
 									<label for="tipoPermesso" class="form-label">Tipo Permesso </label>
 									<spring:bind path="tipoPermesso">
 								    <select class="form-select" id="tipoPermesso" name="tipoPermesso" >
 								    	<option value="" selected> - Selezionare - </option>
-								      	<option value="FERIE" >FERIE</option>
-								      	<option value="MALATTIA"  >MALATTIA</option>
+								      	<option value="FERIE" ${edit_richiestaPermesso_attr.tipoPermesso == 'FERIE'?'selected':''}>FERIE</option>
+								      	<option value="MALATTIA" ${edit_richiestaPermesso_attr.tipoPermesso == 'MALATTIA'?'selected':''}>MALATTIA</option>
 								    </select>
 								    </spring:bind>
 								    <form:errors  path="tipoPermesso" cssClass="error_field" />
 								</div>
 								
 								<div id="codiceCertificato" class="col-md-3 d-none">
-									<label for="codiceCertificato" class="form-label">Codice Certificato</label>
+									<label for="codiceCertificato" class="form-label">Codice Certificato </label>
 									<spring:bind path="codiceCertificato">
-										<input type="text" name="codiceCertificato" id="codiceCertificato" class="form-control ${status.error ? 'is-invalid' : ''}" placeholder="Inserire il codice certificato" value="${insert_richiestaPermesso_attr.codiceCertificato }" required>
+										<input type="text" name="codiceCertificato" id="codiceCertificato" class="form-control ${status.error ? 'is-invalid' : ''}" placeholder="Inserire il codice certificato" value="${edit_richiestaPermesso_attr.codiceCertificato }" required>
 									</spring:bind>
 									<form:errors  path="codiceCertificato" cssClass="error_field" />
 								</div>
 								<div id="certificatoAllegato" class="col-md-6 d-none">
 									<label for="attachment" class="form-label">Certificato Allegato</label>
 									<spring:bind path="attachment">
-										<input type="file" name="codFis" id="codFis" class="form-control ${status.error ? 'is-invalid' : ''}" placeholder="Inserire il certificato allegato" value="${insert_richiestaPermesso_attr.attachment }" required>
+										<input type="file" name="codFis" id="codFis" class="form-control ${status.error ? 'is-invalid' : ''}" placeholder="Inserire il certificato allegato" value="${edit_richiestaPermesso_attr.attachment }" required>
 									</spring:bind>
 									<form:errors  path="attachment" cssClass="error_field" />
 								</div>
 								
-								<fmt:formatDate pattern='yyyy-MM-dd' var="parsedDate" type='date' value='${insert_richiestaPermesso_attr.dataInizio}' />
+								<fmt:formatDate pattern='yyyy-MM-dd' var="parsedDate" type='date' value='${edit_richiestaPermesso_attr.dataInizio}' />
 								<div class="col-md-3">
 									<label for="dataInizio" class="form-label">Data Inizio <span class="text-danger">*</span></label>
 	                        		<spring:bind path="dataInizio">
@@ -91,20 +91,20 @@
 	                            	<form:errors  path="dataInizio" cssClass="error_field" />
 								</div>
 								
-								<fmt:formatDate pattern='yyyy-MM-dd' var="parsedDate2" type='date' value='${insert_richiestaPermesso_attr.dataFine}' />
+								<fmt:formatDate pattern='yyyy-MM-dd' var="parsedDate2" type='date' value='${edit_richiestaPermesso_attr.dataFine}' />
 								<div id="dataFineDiv" class="col-md-3">
 									<label for="" class="form-label">Data Fine</label>
 	                        		<spring:bind path="dataFine">
 		                        		<input class="form-control ${status.error ? 'is-invalid' : ''}" id="dataFine" type="date" placeholder="dd/MM/yy"
 		                            		title="formato : gg/mm/aaaa"  name="dataFine" required 
-		                            		value="${parsedDate2}" >
+		                            		value="${parsedDate2}" ${edit_richiestaPermesso_attr.dataFine == null?'disabled':''}>
 		                            </spring:bind>
 	                            	<form:errors  path="dataFine" cssClass="error_field" />
 								</div>
 								
 								<div class="col-md-3">
 									<div class="form-check">
-										<input class="form-check-input" name="giornoSingolo" type="checkbox" id="giornoSingolo" >
+										<input class="form-check-input" name="giornoSingolo" type="checkbox" id="giornoSingolo" ${edit_richiestaPermesso_attr.dataFine == null?'checked':''}>
 										<label class="form-check-label" for="giornoSingolo" >
 											Giorno singolo
 										</label>
@@ -114,7 +114,7 @@
 								<div class="col-md-6">
 									<label for="note" class="form-label">Note</label>
 									<spring:bind path="note">
-										<textarea name="note" id="note" class="form-control ${status.error ? 'is-invalid' : ''}" placeholder="Inserire le note" required>${insert_richiestaPermesso_attr.note }</textarea>
+										<textarea name="note" id="note" class="form-control ${status.error ? 'is-invalid' : ''}" placeholder="Inserire le note" required>${edit_richiestaPermesso_attr.note }</textarea>
 									</spring:bind>
 									<form:errors  path="note" cssClass="error_field" />
 								</div>
@@ -141,10 +141,20 @@
 										  }
 									});
 									
-									$('#giornoSingolo').change(function(){
-										
-										$("#dataFine").attr('disabled', this.checked)
+							
+									
+									$(document).ready(function(){
+										  if($("#tipoPermesso").val() == 'MALATTIA'){
+										    $("#codiceCertificato").removeClass('d-none');
+										    $("#certificatoAllegato").removeClass('d-none');
+										  }
+										  else{
+											  $("#codiceCertificato").addClass('d-none');
+											  $("#certificatoAllegato").addClass('d-none');
+										  }
 									});
+									
+							
 									
 							
 								</script>

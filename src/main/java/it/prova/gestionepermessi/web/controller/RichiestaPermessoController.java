@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -50,7 +52,7 @@ public class RichiestaPermessoController {
 			mv.addObject("richiestePermesso_list_attribute",
 					RichiestaPermessoDTO.createRichiestaPermessoDTOListFromModelList(richiestePermesso));
 			mv.addObject("path", "ricercaPermessi");
-			checkMessaggeIfBO(model);
+			checkMessageIfBO(model);
 			mv.setViewName("richiestapermesso/list");
 		} else if (roles.contains("ROLE_DIPENDENTE_USER")) {
 			List<RichiestaPermesso> richiestePermesso = richiestaPermessoService
@@ -70,7 +72,7 @@ public class RichiestaPermessoController {
 	@GetMapping("/search")
 	public String searchDipendente(Model model) {
 		model.addAttribute("path", "ricercaPermessi");
-		checkMessaggeIfBO(model);
+		checkMessageIfBO(model);
 		return "richiestapermesso/search";
 	}
 
@@ -91,7 +93,7 @@ public class RichiestaPermessoController {
 		model.addAttribute("richiestePermesso_list_attribute",
 				RichiestaPermessoDTO.createRichiestaPermessoDTOListFromModelList(richiestePermessi));
 		model.addAttribute("path", "ricercaPermessi");
-		checkMessaggeIfBO(model);
+		checkMessageIfBO(model);
 		return "richiestapermesso/list";
 	}
 
@@ -100,7 +102,7 @@ public class RichiestaPermessoController {
 		System.out.println("SEI DENTRO");
 		model.addAttribute("show_richiestaPermesso_attr", RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(
 				richiestaPermessoService.caricaSingoloElementoEager(idRichiestaPermesso)));
-		checkMessaggeIfBO(model);
+		checkMessageIfBO(model);
 		model.addAttribute("path", "ricercaPermessi");
 
 		return "richiestapermesso/show";
@@ -113,7 +115,7 @@ public class RichiestaPermessoController {
 		return "redirect:/richiestapermesso";
 	}
 
-	private void checkMessaggeIfBO(Model modelInput) {
+	private void checkMessageIfBO(Model modelInput) {
 		Set<String> roles = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
 				.map(r -> r.getAuthority()).collect(Collectors.toSet());
 		if (roles.contains("ROLE_BO_USER")) {
@@ -142,6 +144,7 @@ public class RichiestaPermessoController {
 	public String save(
 			@Validated @ModelAttribute("insert_richiestaPermesso_attr") RichiestaPermessoDTO richiestaPermessoDTO,
 			BindingResult result, Model model, RedirectAttributes redirectAttrs) {
+		System.out.println(richiestaPermessoDTO);
 		System.out.println("CI SEI FRATELLO!!!!");
 		if (result.hasErrors()) {
 			return "richiestapermesso/insert";
@@ -151,6 +154,38 @@ public class RichiestaPermessoController {
 				SecurityContextHolder.getContext().getAuthentication().getName());
 
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
+		return "redirect:/richiestapermesso";
+	}
+
+	@GetMapping("/edit/{idRichiestaPermesso}")
+	public String edit(@PathVariable(required = true) Long idRichiestaPermesso, Model model) {
+		RichiestaPermesso richiestaPermessoModel = richiestaPermessoService
+				.caricaSingoloElementoEager(idRichiestaPermesso);
+		model.addAttribute("edit_richiestaPermesso_attr",
+				RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(richiestaPermessoModel));
+		model.addAttribute("path", "gestioneRichiestePermesso");
+		return "richiestapermesso/edit";
+	}
+
+	@PostMapping("/update")
+	public String update(
+			@Validated @ModelAttribute("edit_richiestaPermesso_attr") RichiestaPermessoDTO richiestaPermessoDTO,
+			BindingResult result, Model model, RedirectAttributes redirectAttrs, HttpServletRequest request) {
+		if (result.hasErrors()) {
+			return "richiestapermesso/edit";
+		}
+
+		try {
+			richiestaPermessoService.aggiorna(richiestaPermessoDTO.buildRichiestaPermessoModel(true));
+			redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
+		} catch (NullPointerException ex) {
+			redirectAttrs.addFlashAttribute("errorMessage", "Impossibile modificare il permesso");
+		}
+		catch(IllegalArgumentException ex) {
+			redirectAttrs.addFlashAttribute("errorMessage", "Impossibile modificare il permesso");
+		}
+
+		
 		return "redirect:/richiestapermesso";
 	}
 }
